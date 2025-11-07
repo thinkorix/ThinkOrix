@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Services - H&T Innovation</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="services.css">
+    <link rel="stylesheet" href="navAndfooter.css">
+    <style>
+        /* Modal Styles */
+        .service-modal {
+            display: none;
+            position: fixed;
+            z-index: 3000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            animation: fadeIn 0.3s ease;
+            overflow-y: auto;
+        }
+
+        .service-modal.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 3% auto;
+            padding: 0;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 900px;
+            animation: slideUp 0.4s ease;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+            position: relative;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, #0066cc 0%, #1a2844 100%);
+            color: white;
+            padding: 2.5rem;
+            border-radius: 16px 16px 0 0;
+            position: relative;
+        }
+
+        .modal-header h2 {
+            font-size: 2rem;
+            margin: 0;
+            padding-right: 50px;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: white;
+            font-size: 35px;
+            font-weight: bold;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+
+        .modal-close:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(90deg);
+        }
+
+        .modal-body {
+            padding: 2.5rem;
+            color: #2c3e50;
+            line-height: 1.8;
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+
+        .modal-body h3 {
+            color: #0066cc;
+            font-size: 1.5rem;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .modal-body h3:first-child {
+            margin-top: 0;
+        }
+
+        .modal-body p {
+            margin-bottom: 1.2rem;
+            font-size: 1.05rem;
+            color: #5a6c7d;
+        }
+
+        .modal-body ul {
+            margin-left: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-body li {
+            margin-bottom: 0.75rem;
+            line-height: 1.8;
+            color: #5a6c7d;
+        }
+
+        .modal-body strong {
+            color: #0066cc;
+            font-weight: 600;
+        }
+
+        .modal-icon {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 1rem;
+        }
+
+        /* Scrollbar styling for modal */
+        .modal-body::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .modal-body::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .modal-body::-webkit-scrollbar-thumb {
+            background: #0066cc;
+            border-radius: 10px;
+        }
+
+        .modal-body::-webkit-scrollbar-thumb:hover {
+            background: #1a2844;
+        }
+
+        @media (max-width: 768px) {
+            .modal-content {
+                width: 95%;
+                margin: 5% auto;
+            }
+
+            .modal-header {
+                padding: 2rem 1.5rem;
+            }
+
+            .modal-header h2 {
+                font-size: 1.5rem;
+            }
+
+            .modal-body {
+                padding: 1.5rem;
+                max-height: 50vh;
+            }
+
+            .modal-close {
+                top: 15px;
+                right: 15px;
+                width: 40px;
+                height: 40px;
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">H&T Innovation</a>
+            
+            <!-- Desktop Menu -->
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="services.html" class="nav-link active">Services</a></li>
+                <li><a href="career.html" class="nav-link">Career</a></li>
+                <li><a href="project.html" class="nav-link">Portfolio</a></li>
+                <li><a href="about.html" class="nav-link">About</a></li>
+                <li><a href="blog.html" class="nav-link">Blog</a></li>
+                <li><a href="contact.html" class="cta-button">Contact</a></li>
+            </ul>
+
+            <!-- Hamburger Menu -->
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sidebar Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Sidebar Menu -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h3>Menu</h3>
+            <button class="close-btn" id="closeBtn">&times;</button>
+        </div>
+        <ul class="sidebar-menu">
+            <li><a href="index.html" class="sidebar-link">Home</a></li>
+            <li><a href="services.html" class="sidebar-link active">Services</a></li>
+            <li><a href="career.html" class="sidebar-link">Career</a></li>
+            <li><a href="project.html" class="sidebar-link">Portfolio</a></li>
+            <li><a href="about.html" class="sidebar-link">About</a></li>
+            <li><a href="blog.html" class="sidebar-link">Blog</a></li>
+            <li><a href="contact.html" class="sidebar-link">Contact</a></li>
+        </ul>
+    </div>
+
+    <!-- Service Modal -->
+    <div id="serviceModal" class="service-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle"></h2>
+                <button class="modal-close" onclick="closeServiceModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="modalBody">
+            </div>
+        </div>
+    </div>
+
+    <div class="header">
+        <h1>Our <span>Services</span></h1>
+        <div class="header-underline"></div>
+    </div>
+
+    <div class="services-wrapper">
+        <div class="why-choose">
+            <h2>Why you should choose H&T Innovation</h2>
+            <div class="why-choose-content">
+                <div class="why-item">
+                    <h3>| Design Thinking</h3>
+                    <p>Solution architects may analyze company issues and provide the best solutions.</p>
+                </div>
+                <div class="why-item">
+                    <h3>| Domain expertise</h3>
+                    <p>We understand the problems unique to the sector and use design thinking.</p>
+                </div>
+                <div class="why-item">
+                    <h3>| Client experience</h3>
+                    <p>Several business engagements with proven returns on the solutions used.</p>
+                </div>
+                <a class="meet-btn" href="contact.html">Let's Meet</a>
+            </div>
+        </div>
+
+        <div class="services-preview">
+            <div class="service-preview-card">
+                <h3>Web Design & Development</h3>
+                <p>Design and development services for websites are the focus of H&T Innovation.</p>
+            </div>
+            <div class="service-preview-card">
+                <h3>Mobile App Development</h3>
+                <p>No matter the OS platform, we at H&T Innovation can create anything tailored to meet your needs.</p>
+            </div>
+            <div class="service-preview-card">
+                <h3>Logo Design & Graphic Design</h3>
+                <p>At every online touchpoint with your brand, we blend innovation, aesthetics, and outstanding user experiences to inspire loyalty in your customers.</p>
+            </div>
+            <div class="service-preview-card">
+                <h3>Support & Maintenance</h3>
+                <p>Our first objective is problem prevention, so we take proactive steps to avert situations before they arise.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="service-section">
+            <div class="service-icon-wrapper">
+                <svg class="service-icon" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="50" y="50" width="300" height="250" rx="15" fill="none" stroke="#000" stroke-width="6"/>
+                    <circle cx="75" cy="85" r="8" fill="#000"/>
+                    <circle cx="100" cy="85" r="8" fill="#000"/>
+                    <circle cx="125" cy="85" r="8" fill="#000"/>
+                    <line x1="150" y1="85" x2="320" y2="85" stroke="#000" stroke-width="6"/>
+                    <rect x="70" y="120" width="260" height="160" rx="5" fill="#17a2b8"/>
+                    <text x="140" y="210" font-size="80" font-weight="bold" fill="#000">&lt; / &gt;</text>
+                </svg>
+                <div class="red-line"></div>
+            </div>
+            <div class="service-content">
+                <h2>Web Design & Development</h2>
+                <p>Web development & Website Development is the process of designing and creating websites for the Internet. This can include everything from the layout and user interface design to the coding and programming required to make the site functional.</p>
+                <a href="#" class="read-more" onclick="openServiceModal('web-development')">Read More →</a>
+            </div>
+        </div>
+
+        <div class="service-section">
+            <div class="service-icon-wrapper">
+                <svg class="service-icon" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="100" y="30" width="200" height="340" rx="20" fill="none" stroke="#000" stroke-width="6"/>
+                    <rect x="120" y="60" width="160" height="240" rx="5" fill="#17a2b8"/>
+                    <rect x="140" y="100" width="50" height="50" rx="5" fill="#000"/>
+                    <rect x="210" y="100" width="50" height="50" rx="5" fill="#000"/>
+                    <rect x="175" y="180" width="50" height="80" rx="5" fill="#000"/>
+                    <rect x="140" y="320" width="120" height="20" rx="10" fill="#17a2b8"/>
+                </svg>
+                <div class="red-line"></div>
+            </div>
+            <div class="service-content">
+                <h2>Mobile App Development</h2>
+                <p>Mobile app development Company refers to the process of creating software applications that run on mobile devices such as smartphones and tablets. Mobile app development involves several stages, including concept, design, development, testing, deployment, and maintenance.</p>
+                <a href="#" class="read-more" onclick="openServiceModal('mobile-development')">Read More →</a>
+            </div>
+        </div>
+
+        <div class="service-section">
+            <div class="service-icon-wrapper">
+                <svg class="service-icon" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="50" y="100" width="300" height="220" rx="10" fill="none" stroke="#000" stroke-width="6"/>
+                    <rect x="80" y="140" width="150" height="90" rx="5" fill="#17a2b8"/>
+                    <line x1="200" y1="60" x2="200" y2="320" stroke="#000" stroke-width="6"/>
+                    <ellipse cx="200" cy="60" rx="20" ry="60" fill="#000"/>
+                    <rect x="190" y="60" width="20" height="20" fill="#17a2b8"/>
+                </svg>
+                <div class="red-line"></div>
+            </div>
+            <div class="service-content">
+                <h2>Logo Design & Graphic Design</h2>
+                <p>At every online touchpoint with your brand, we blend innovation, aesthetics, and outstanding user experiences to inspire loyalty in your customers. Our collaboration will begin with Graphic design and UX workshops.</p>
+                <a href="#" class="read-more" onclick="openServiceModal('graphic-design')">Read More →</a>
+            </div>
+        </div>
+
+        <div class="service-section">
+            <div class="service-icon-wrapper">
+                <svg class="service-icon" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="100" y="80" width="200" height="280" rx="20" fill="none" stroke="#000" stroke-width="6"/>
+                    <rect x="130" y="120" width="140" height="100" rx="5" fill="#17a2b8"/>
+                    <path d="M 150,230 Q 200,270 250,230" fill="none" stroke="#17a2b8" stroke-width="8"/>
+                    <circle cx="170" cy="290" r="15" fill="#000"/>
+                    <circle cx="230" cy="290" r="15" fill="#000"/>
+                    <rect x="150" y="320" width="100" height="20" rx="10" fill="#17a2b8"/>
+                </svg>
+                <div class="red-line"></div>
+            </div>
+            <div class="service-content">
+                <h2>E-commerce Development</h2>
+                <p>Our purchasing habits are still changing as the internet does. These days, customers demand a smooth, simple purchasing process. Our E-commerce solutions can be what you need to enhance your online buying experience.</p>
+                <a href="#" class="read-more" onclick="openServiceModal('ecommerce')">Read More →</a>
+            </div>
+        </div>
+
+        <div class="service-section">
+            <div class="service-icon-wrapper">
+                <svg class="service-icon" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M 150,180 L 180,240 L 220,240 L 250,180" fill="none" stroke="#17a2b8" stroke-width="8"/>
+                    <circle cx="200" cy="160" r="30" fill="none" stroke="#000" stroke-width="6"/>
+                    <path d="M 180,280 Q 200,300 220,280" fill="none" stroke="#000" stroke-width="6"/>
+                    <rect x="50" y="50" width="300" height="250" rx="15" fill="none" stroke="#000" stroke-width="6"/>
+                    <circle cx="75" cy="85" r="8" fill="#000"/>
+                    <circle cx="100" cy="85" r="8" fill="#000"/>
+                    <circle cx="125" cy="85" r="8" fill="#000"/>
+                    <line x1="150" y1="85" x2="320" y2="85" stroke="#000" stroke-width="6"/>
+                </svg>
+                <div class="red-line"></div>
+            </div>
+            <div class="service-content">
+                <h2>Support & Maintenance</h2>
+                <p>Our first objective is problem prevention, so we take proactive steps to avert situations before they arise. Our triage, prioritising, and escalation methods ensure quick and coordinated resolution of any issues.</p>
+                <a href="#" class="read-more" onclick="openServiceModal('support')">Read More →</a>
+            </div>
+        </div>
+
+        <div class="service-section">
+            <div class="service-icon-wrapper">
+                <svg class="service-icon" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="50" y="50" width="300" height="250" rx="15" fill="none" stroke="#000" stroke-width="6"/>
+                    <circle cx="75" cy="85" r="8" fill="#000"/>
+                    <circle cx="100" cy="85" r="8" fill="#000"/>
+                    <circle cx="125" cy="85" r="8" fill="#000"/>
+                    <line x1="150" y1="85" x2="320" y2="85" stroke="#000" stroke-width="6"/>
+                    <text x="100" y="200" font-size="120" font-weight="bold" fill="#17a2b8">&lt; / &gt;</text>
+                    <line x1="220" y1="150" x2="260" y2="190" stroke="#000" stroke-width="6"/>
+                    <line x1="260" y1="190" x2="300" y2="150" stroke="#000" stroke-width="6"/>
+                </svg>
+                <div class="red-line"></div>
+            </div>
+            <div class="service-content">
+                <h2>SEO & Digital Marketing Services</h2>
+                <p>SEO (Search Engine Optimization) digital marketing services refer to the strategies and tactics used to improve the visibility and ranking of a website on search engine results pages (SERPs).</p>
+                <a href="#" class="read-more" onclick="openServiceModal('seo-marketing')">Read More →</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo-section">
+                <div class="footer-logo">
+                    <div class="logo">
+                        <div class="logo-icon">H</div>
+                        <span>H&T Innovation</span>
+                    </div>
+                </div>
+                <div class="newsletter">
+                    <input type="email" placeholder="Subscribe for email updates">
+                </div>
+                <div class="social-icons">
+                    <a href="#" aria-label="LinkedIn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                        </svg>
+                    </a>
+                    <a href="#" aria-label="Instagram">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                        </svg>
+                    </a>
+                    <a href="#" title="Twitter">𝕏</a>
+                </div>
+            </div>
+
+            <div class="footer-column">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="services.html" class="nav-link active">Services</a></li>
+                    <li><a href="career.html">Career</a></li>
+                    <li><a href="project.html">Portfolio</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="privacy_policy.html">Privacy Policy</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>All copyrights reserved © 2025 - H&T Innovation</p>
+        </div>
+    </footer>
+
+    <script src="navbar.js"></script>
+    <script src="services-modal.js"></script>
+</body>
+</html>

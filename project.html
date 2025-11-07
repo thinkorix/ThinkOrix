@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio</title>
+    <link rel="stylesheet" href="navAndfooter.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        header {
+            background: white;
+            padding: 20px 50px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .portfolio-section {
+            max-width: 1400px;
+            margin: 60px auto;
+            padding: 0 50px;
+        }
+
+        .portfolio-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .portfolio-header h1 {
+            font-size: 48px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .portfolio-header h1 span {
+            color: #0066cc;
+        }
+
+        .underline {
+            width: 150px;
+            height: 3px;
+            background: #0066cc;
+            margin: 15px auto;
+        }
+
+        .portfolio-header p {
+            color: #666;
+            font-size: 16px;
+            max-width: 600px;
+            margin: 20px auto;
+            line-height: 1.6;
+        }
+
+        .filter-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 50px;
+        }
+
+        .filter-btn {
+            padding: 12px 30px;
+            border: 2px solid #333;
+            background: transparent;
+            color: #333;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: #2d3e50;
+            color: white;
+            border-color: #2d3e50;
+        }
+
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .portfolio-item {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+            display: block;
+            text-decoration: none;
+        }
+
+        .portfolio-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .portfolio-item img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .portfolio-item.hidden {
+            display: none;
+        }
+
+        .item-info {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .item-info h3 {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .item-info p {
+            font-size: 14px;
+            color: #666;
+        }
+
+        @media (max-width: 1200px) {
+            .portfolio-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 968px) {
+            .portfolio-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .portfolio-section {
+                padding: 0 30px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .portfolio-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .filter-buttons {
+                flex-wrap: wrap;
+            }
+
+            .filter-btn {
+                padding: 10px 20px;
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">H&T Innovation</a>
+            
+            <!-- Desktop Menu -->
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="services.html" class="nav-link">Services</a></li>
+                <li><a href="career.html" class="nav-link active">Career</a></li>
+                <li><a href="project.html" class="nav-link">Portfolio</a></li>
+                <li><a href="about.html" class="nav-link">About</a></li>
+                <li><a href="blog.html" class="nav-link">Blog</a></li>
+                <li><a href="contact.html" class="cta-button">Contact</a></li>
+            </ul>
+
+            <!-- Hamburger Menu -->
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sidebar Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Sidebar Menu -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h3>Menu</h3>
+            <button class="close-btn" id="closeBtn">&times;</button>
+        </div>
+        <ul class="sidebar-menu">
+            <li><a href="index.html" class="sidebar-link">Home</a></li>
+            <li><a href="services.html" class="sidebar-link">Services</a></li>
+            <li><a href="career.html" class="sidebar-link active">Career</a></li>
+            <li><a href="project.html" class="sidebar-link">Portfolio</a></li>
+            <li><a href="about.html" class="sidebar-link">About</a></li>
+            <li><a href="blog.html" class="sidebar-link">Blog</a></li>
+            <li><a href="contact.html" class="sidebar-link">Contact</a></li>
+        </ul>
+    </div>
+
+    <section class="portfolio-section">
+        <div class="portfolio-header">
+            <h1>Our <span>Portfolio</span></h1>
+            <div class="underline"></div>
+            <p>Our work is distinguished amongst wide variety. Below are few of our websites which may help you to trust us better.</p>
+        </div>
+
+        <div class="filter-buttons">
+            <button class="filter-btn active" data-filter="all">ALL</button>
+            <button class="filter-btn" data-filter="web">WEB</button>
+            <button class="filter-btn" data-filter="mobile">MOBILE APPS</button>
+            <button class="filter-btn" data-filter="branding">BRANDING</button>
+        </div>
+
+        <div class="portfolio-grid" id="portfolioGrid">
+            <!-- Web Projects -->
+            <a href="https://clothing-resha.vercel.app/#" class="portfolio-item" data-category="web">
+                <img src="assests/house_of_resha.png" alt="Construction Website">
+                <div class="item-info">
+                    <h3>House Of Resha</h3>
+                    <p>Website Development</p>
+                </div>
+            </a>
+
+            <a href="https://apx-project.vercel.app/" class="portfolio-item" data-category="web">
+                <img src="assests/APX_home_image.png" alt="Corporate Website">
+                <div class="item-info">
+                    <h3>Corporate Solutions</h3>
+                    <p>Website Development</p>
+                </div>
+            </a>
+
+            <a href="https://amazing-traveling.netlify.app/" class="portfolio-item" data-category="web">
+                <img src="assests/Travelling_image.png" alt="Corporate Website">
+                <div class="item-info">
+                    <h3>Corporate Solutions</h3>
+                    <p>Website Development</p>
+                </div>
+            </a>
+
+            <!-- Mobile Apps -->
+              <a href="https://github.com/TanishqRathod/Torn-Pages.git" class="portfolio-item" data-category="mobile">
+                <img src="https://github.com/user-attachments/assets/67ca20bd-25bb-4c4d-97b6-5af4ad9e44f6" alt="Food Delivery App">
+                <div class="item-info">
+                    <h3>Torn Pages</h3>
+                    <p>Mobile Application</p>
+                </div>
+            </a>
+            <a href="https://github.com/TanishqRathod/PRACHIN-JADIBUTI.git" class="portfolio-item" data-category="mobile">
+                <img src="assests/pj_ayurveda.png">
+                <div class="item-info">
+                    <h3>PJ Ayurveda</h3>
+                    <p>Mobile Application</p>
+                </div>
+            </a>
+            <a href="https://github.com/TanishqRathod/APX-Token.git" class="portfolio-item" data-category="mobile">
+                <img src="https://github.com/user-attachments/assets/6119a2b5-ec66-4811-8176-d8c57689ec62" alt="Job Application Mobile App">
+                <div class="item-info">
+                    <h3>APX Token</h3>
+                    <p>Mobile Application</p>
+                </div>
+            </a>
+            <!-- Branding Projects -->
+            <a href="https://example.com/roadrunner" class="portfolio-item" data-category="branding">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect fill='%23fff3e0' width='400' height='300'/%3E%3Ccircle cx='200' cy='150' r='80' fill='%23ff9800'/%3E%3Ctext x='50%25' y='52%25' font-size='26' fill='%23333' text-anchor='middle' font-family='Georgia'%3EROADRUNNER%3C/text%3E%3Ctext x='50%25' y='62%25' font-size='14' fill='%23666' text-anchor='middle' font-family='Georgia'%3ECOFFEE CO%3C/text%3E%3C/svg%3E" alt="Roadrunner Coffee Logo">
+                <div class="item-info">
+                    <h3>Roadrunner Coffee</h3>
+                    <p>Logo & Branding</p>
+                </div>
+            </a>
+
+            <a href="https://example.com/viceroy" class="portfolio-item" data-category="branding">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect fill='%23f5f5f5' width='400' height='300'/%3E%3Ctext x='50%25' y='48%25' font-size='36' fill='%23333' text-anchor='middle' font-family='Arial' font-weight='bold'%3EVICEROY%3C/text%3E%3Ctext x='50%25' y='58%25' font-size='18' fill='%23666' text-anchor='middle' font-family='Arial'%3ECAPITAL%3C/text%3E%3C/svg%3E" alt="Viceroy Capital Logo">
+                <div class="item-info">
+                    <h3>Viceroy Capital</h3>
+                    <p>Logo & Branding</p>
+                </div>
+            </a>
+
+            <a href="https://example.com/restaurant-brand" class="portfolio-item" data-category="branding">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect fill='%23d32f2f' width='400' height='300'/%3E%3Ctext x='50%25' y='48%25' font-size='32' fill='white' text-anchor='middle' font-family='Georgia'%3ETaste%3C/text%3E%3Ctext x='50%25' y='60%25' font-size='32' fill='white' text-anchor='middle' font-family='Georgia'%3EHaven%3C/text%3E%3C/svg%3E" alt="Restaurant Branding">
+                <div class="item-info">
+                    <h3>Taste Haven</h3>
+                    <p>Logo & Branding</p>
+                </div>
+            </a>
+
+            <a href="https://example.com/tech-brand" class="portfolio-item" data-category="branding">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect fill='%23212121' width='400' height='300'/%3E%3Ctext x='50%25' y='48%25' font-size='36' fill='%2300bcd4' text-anchor='middle' font-family='Arial' font-weight='bold'%3ETECHNOVATE%3C/text%3E%3Ctext x='50%25' y='58%25' font-size='14' fill='white' text-anchor='middle' font-family='Arial'%3EInnovation First%3C/text%3E%3C/svg%3E" alt="Tech Company Branding">
+                <div class="item-info">
+                    <h3>Technovate</h3>
+                    <p>Logo & Branding</p>
+                </div>
+            </a>
+        </div>
+    </section>
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo-section">
+                <div class="footer-logo">
+                    <div class="logo">
+                        <div class="logo-icon">O</div>
+                        <span>Optitech</span>
+                    </div>
+                </div>
+                <div class="newsletter">
+                    <input type="email" placeholder="Subscribe for email updates">
+                </div>
+                <div class="social-icons">
+                    <a href="#" aria-label="LinkedIn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                        </svg>
+                    </a>
+                    <a href="#" aria-label="Instagram">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                        </svg>
+                    </a>
+                    <a href="#" title="Twitter">𝕏</a>
+                </div>
+            </div>
+
+            <div class="footer-column">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="career.html">Career</a></li>
+                    <li><a href="project.html" class="nav-link active">Portfolio</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="privacy_policy.html">Privacy Policy</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>All copyrights reserved © 2025 - H&T Innovation</p>
+        </div>
+    </footer>
+    
+    <!-- Scripts -->
+    <script src="navbar.js"></script>
+
+    <script>
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const portfolioItems = document.querySelectorAll('.portfolio-item');
+        
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Remove active class from all buttons
+                filterBtns.forEach(b => b.classList.remove('active'));
+                // Add active class to clicked button
+                this.classList.add('active');
+                
+                // Get filter value
+                const filterValue = this.getAttribute('data-filter');
+                
+                // Filter portfolio items
+                portfolioItems.forEach(item => {
+                    const category = item.getAttribute('data-category');
+                    
+                    if (filterValue === 'all') {
+                        item.classList.remove('hidden');
+                    } else if (category === filterValue) {
+                        item.classList.remove('hidden');
+                    } else {
+                        item.classList.add('hidden');
+                    }
+                });
+            });
+        });
+
+        // Prevent default anchor behavior for demo links
+        portfolioItems.forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                const url = this.getAttribute('href');
+                alert('Opening project: ' + url + '\n\nIn production, this would navigate to the actual project URL.');
+                window.open(url, '_blank');
+            });
+        });
+    </script>
+</body>
+</html>

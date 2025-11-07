@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy</title>
+    <!-- <link rel="stylesheet" href="navbar.css"> -->
+     <link rel="stylesheet" href="navAndfooter.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+            line-height: 1.6;
+            background-color: #f5f5f5;
+            position: relative;
+        }
+
+        /* Fixed Background Video */
+        .video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .video-background video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
+        }
+
+        .video-background::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.85);
+        }
+        /* Hero Section */
+        .hero {
+    position: relative;
+    height: 60vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    color: white;
+}
+
+/* Background Video */
+    .hero-video {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transform: translate(-50%, -50%);
+        z-index: -1;
+    }
+
+        .hero {
+            position: relative;
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            overflow: hidden;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(126, 125, 125, 0.5);
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            font-weight: 400;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Content */
+        .content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 10px 20px;
+        }
+
+        .intro-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 50px;
+            margin-bottom: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .intro-section p {
+            margin-bottom: 20px;
+            font-size: 16px;
+            color: #666;
+            text-align: justify;
+        }
+
+        .intro-section a {
+            color: #c94141;
+            text-decoration: none;
+        }
+
+        .intro-section a:hover {
+            text-decoration: underline;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 50px;
+            margin-bottom: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .section h2 {
+            font-size: 32px;
+            margin-bottom: 30px;
+            color: #0066cc;
+            border-bottom: 3px solid #1e3a8a;
+            padding-bottom: 15px;
+        }
+
+        .section h3 {
+            font-size: 22px;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+
+        .section p {
+            margin-bottom: 20px;
+            font-size: 16px;
+            color: #666;
+            text-align: justify;
+        }
+
+        .value-item,
+        .reason-item {
+            margin-bottom: 35px;
+        }
+
+        .methodology-step {
+            margin-bottom: 30px;
+        }
+
+        .methodology-step h3 {
+            margin-top: 0;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .nav-menu {
+                gap: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .hero h1 {
+                font-size: 36px;
+                padding: 0 20px;
+                text-align: center;
+            }
+
+            .hero {
+                height: 250px;
+            }
+
+            .content {
+                padding: 40px 15px;
+            }
+
+            .intro-section,
+            .section {
+                padding: 30px 20px;
+            }
+
+            .section h2 {
+                font-size: 26px;
+            }
+
+            .section h3 {
+                font-size: 20px;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 28px;
+            }
+
+            .intro-section,
+            .section {
+                padding: 20px 15px;
+            }
+
+            .section h2 {
+                font-size: 22px;
+            }
+
+            .section h3 {
+                font-size: 18px;
+            }
+
+            .intro-section p,
+            .section p {
+                font-size: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Fixed Background Video -->
+    <div class="video-background">
+        <!-- <video autoplay muted loop playsinline>
+            <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video> -->
+    </div>
+
+    <nav class="navbar">
+    <div class="nav-container">
+        <a href="index.html" class="logo">H&T Innovation</a>
+        
+        <!-- Desktop Menu -->
+        <ul class="nav-menu">
+            <li><a href="index.html" class="nav-link">Home</a></li>
+            <li><a href="services.html" class="nav-link">Services</a></li>
+            <li><a href="career.html" class="nav-link">Career</a></li>
+            <li><a href="project.html" class="nav-link">Project</a></li>
+            <li><a href="about.html" class="nav-link">About</a></li>
+            <li><a href="blog.html" class="nav-link">Blog</a></li>
+            <li><a href="contact.html" class="cta-button">Contact</a></li>
+        </ul>
+
+        <!-- Hamburger Menu -->
+        <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+</nav>
+
+<!-- Sidebar Overlay -->
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<!-- Sidebar Menu -->
+<div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+        <h3>Menu</h3>
+        <button class="close-btn" id="closeBtn">&times;</button>
+    </div>
+    <ul class="sidebar-menu">
+        <li><a href="index.html" class="sidebar-link">Home</a></li>
+        <li><a href="services.html" class="sidebar-link">Services</a></li>
+        <li><a href="career.html" class="sidebar-link">Career</a></li>
+        <li><a href="project.html" class="sidebar-link">Project</a></li>
+        <li><a href="about.html" class="sidebar-link">About</a></li>
+        <li><a href="blog.html" class="sidebar-link">Blog</a></li>
+        <li><a href="contact.html" class="sidebar-link">Contact</a></li>
+    </ul>
+</div>
+
+   <!-- Hero Section -->
+<section class="hero">
+    <!-- <video autoplay muted loop playsinline class="hero-video">
+        <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video> -->
+    <div class="hero-overlay"></div>
+    <h1>Privacy Policy</h1>
+</section>
+
+
+    <!-- Content -->
+    <div class="content">
+            <center><p style="max-width: 800px;">Overview of This Privacy Policy details of the information collected by us, Via our website, and usage of this information in our Coumpany for Internship, Training & Reqruitment.</p></center>
+            <br><br><br>
+            <h3>1. Personal Information</h3>
+            <p>We do not collect personal information from children through our applications or website. We do not require you to provide any information to download or use our mobile applications, except non-personal usage data for improving our applications.</p>
+            <br>
+            <h3>2. Support Requests</h3>
+            <p>You may contact us via email for support inquiries. Any provided information, including your email address, will only be used for support purposes and deleted once the request is resolved.</p>
+            <br>
+            <h3>3. Information Sharing Disclosure</h3>
+            <p>We do not share your email or support request details except (i) with our email service provider for newsletters and (ii) when legally required.</p>
+            <br>
+            <h3>4. Children's Information</h3>
+            <p>We do not knowingly collect personally identifiable information from children under 13. If such information is found, we will remove it immediately upon notification.</p>
+            <br>
+            <h3>5. Cookie Usage</h3>
+            <p>Our service does not explicitly use cookies, but third-party services may. You can accept or refuse cookies through your browser settings.</p>
+            <br>
+            <h3>6. Third-Party Site Links</h3>
+            <p>Our website and applications may contain links to third-party websites. We are not responsible for their privacy practices.</p>
+            <br>
+            <h3>7. Changes to this Privacy Policy</h3>
+            <p>We will use your information per the policy in effect at the time. If changes occur, you will be notified before they take effect.</p>
+            <br>
+            <h3>8. Contact</h3>
+            <p>If you have any concerns regarding this Privacy Policy, please contact us via email.</p>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo-section">
+                <div class="logo">
+                    <div class="logo-icon">HT</div>
+                    <span>H&T Innovation</span>
+                </div>
+                <div class="newsletter">
+                    <input type="email" placeholder="Subscribe for email updates">
+                </div>
+                <div class="social-icons">
+                    <a href="#" aria-label="LinkedIn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                        </svg>
+                    </a>
+                    <a href="#" aria-label="Instagram">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                        </svg>
+                    </a>
+                    <a href="#" title="Twitter">𝕏</a>
+                </div>
+            </div>
+
+            <div class="footer-column">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="career.html">Career</a></li>
+                    <li><a href="project.html">Portfolio</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="privacy_policy.html" class="nav-link active">Privacy Policy</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>All copyrights reserved © 2025 - H&T Innovation</p>
+        </div>
+    </footer>
+    <script src="navbar.js"></script>
+</body>
+</html>
