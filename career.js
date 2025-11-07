@@ -1,7 +1,7 @@
 // Initialize EmailJS with your Public Key
 (function() {
     emailjs.init({
-        publicKey: "N7Qk-3SH-uMcmYv8v", // Replace with your EmailJS public key
+        publicKey: "N7Qk-3SH-uMcmYv8v",
     });
 })();
 
@@ -68,28 +68,16 @@ document.addEventListener('DOMContentLoaded', function() {
             const city = document.getElementById('city').value;
             const technology = selectedInternship;
             
-            // Get file
-            const fileInput = document.getElementById('resume');
-            const file = fileInput.files[0];
-            
-            // Read file as base64
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            
-            reader.onload = async function() {
-                const base64File = reader.result.split(',')[1];
-                
-                // Prepare template parameters
-                const templateParams = {
-                    to_email: 'thinkorix@gmail.com',
-                    from_name: name,
-                    from_email: email,
-                    contact: contact,
-                    address: address,
-                    city: city,
-                    technology: technology,
-                    subject: `New Internship Application - ${technology}`,
-                    message: `
+            // Prepare template parameters (WITHOUT file)
+            const templateParams = {
+                from_name: name,
+                from_email: email,
+                contact: contact,
+                address: address,
+                city: city,
+                technology: technology,
+                subject: `New Internship Application - ${technology}`,
+                message: `
 New internship application received:
 
 Name: ${name}
@@ -99,40 +87,40 @@ Address: ${address}
 City: ${city}
 Technology: ${technology}
 
-Resume attached.
-                    `,
-                    attachment: base64File,
-                    attachment_name: file.name
-                };
-                
-                try {
-                    // Send email using EmailJS
-                    const response = await emailjs.send(
-                        'service_zj9vz1t',      // Replace with your Service ID
-                        'template_7sbsm1b',     // Replace with your Template ID
-                        templateParams
-                    );
-                    
-                    console.log('SUCCESS!', response.status, response.text);
-                    showSuccessMessage();
-                    
-                    setTimeout(() => {
-                        closeModal();
-                        applicationForm.reset();
-                    }, 2500);
-                    
-                } catch (error) {
-                    console.error('FAILED...', error);
-                    throw error;
-                }
+Please request the resume from the applicant at: ${email}
+                `
             };
             
-            reader.onerror = function() {
-                throw new Error('Failed to read file');
-            };
+            console.log('Sending emails...', templateParams);
+            
+            // Send email to admin (thinkorix@gmail.com)
+            const adminResponse = await emailjs.send(
+                'service_zj9vz1t',
+                'template_7sbsm1b',
+                templateParams
+            );
+            
+            console.log('Admin email sent!', adminResponse.status);
+            
+            // Send confirmation email to applicant
+            const confirmationResponse = await emailjs.send(
+                'service_zj9vz1t',
+                'template_dnniys6', // ⚠️ REPLACE THIS with your confirmation template ID
+                templateParams
+            );
+            
+            console.log('Confirmation email sent!', confirmationResponse.status);
+            console.log('✅ Both emails sent successfully!');
+            
+            showSuccessMessage();
+            
+            setTimeout(() => {
+                closeModal();
+                applicationForm.reset();
+            }, 2500);
             
         } catch (error) {
-            console.error('Error:', error);
+            console.error('EmailJS Error:', error);
             showErrorMessage('Failed to submit application. Please try again.');
         } finally {
             submitBtn.textContent = originalBtnText;
@@ -192,12 +180,10 @@ Resume attached.
                             </div>
                         </div>
                         
-                        <div class="form-group">
-                            <label for="resume">Upload Resume</label>
-                            <div class="file-input-wrapper">
-                                <input type="file" id="resume" name="attachment" accept=".pdf,.doc,.docx" required>
-                            </div>
-                            <small style="color: #b0b8c1;">Max file size: 500KB (EmailJS free plan)</small>
+                        <div class="form-group" style="background: #252b3d; padding: 15px; border-radius: 8px; border: 1px solid rgba(74, 158, 255, 0.3);">
+                            <p style="color: #4da6ff; margin: 0; font-size: 14px;">
+                                📧 <strong>Important:</strong> After submitting this form, please email your resume to <strong>thinkorix@gmail.com</strong> with the subject line: "Resume - [Your Name] - [Technology]"
+                            </p>
                         </div>
                         
                         <button type="submit" class="submit-btn">SUBMIT</button>
@@ -259,20 +245,6 @@ Resume attached.
             showErrorTooltip(contactInput, 'Please enter a valid 10-digit phone number');
         }
         
-        const resumeInput = document.getElementById('resume');
-        if (!resumeInput.files || resumeInput.files.length === 0) {
-            isValid = false;
-            resumeInput.style.borderColor = '#f56565';
-            showErrorTooltip(resumeInput, 'Please upload your resume');
-        } else {
-            const fileSize = resumeInput.files[0].size / 1024; // in KB
-            if (fileSize > 500) {
-                isValid = false;
-                resumeInput.style.borderColor = '#f56565';
-                showErrorTooltip(resumeInput, 'File size should not exceed 500KB for EmailJS free plan');
-            }
-        }
-        
         return isValid;
     }
     
@@ -315,16 +287,20 @@ Resume attached.
             right: 20px;
             background: #48bb78;
             color: white;
-            padding: 15px 20px;
+            padding: 20px 25px;
             border-radius: 8px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
             z-index: 10000;
             animation: slideInRight 0.3s ease;
             font-weight: 600;
+            max-width: 400px;
         `;
         successMessage.innerHTML = `
             <strong style="font-size: 1.1rem;">✓ Success!</strong><br>
-            <span style="font-size: 0.9rem;">Your application has been submitted successfully.</span>
+            <span style="font-size: 0.9rem;">Your application has been submitted successfully.</span><br>
+            <span style="font-size: 0.85rem; opacity: 0.9; display: block; margin-top: 8px;">
+                📧 Check your email for confirmation & next steps!
+            </span>
         `;
         
         document.body.appendChild(successMessage);
@@ -334,7 +310,7 @@ Resume attached.
             setTimeout(() => {
                 successMessage.remove();
             }, 300);
-        }, 2500);
+        }, 4000);
     }
     
     function showErrorMessage(message) {
