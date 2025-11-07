@@ -204,59 +204,85 @@ const serviceDetails = {
             <p><strong>Keep Your Systems Running Smoothly:</strong> Our proactive support and maintenance services ensure your digital assets are always secure, up-to-date, and performing at their best. Let us handle the technical details while you focus on growing your business.</p>
         `
     },
-    'seo-marketing': {
-        title: 'SEO & Digital Marketing Services',
-        content: `
-            <h3>Comprehensive Digital Marketing Solutions</h3>
-            <p>SEO (Search Engine Optimization) digital marketing services refer to the strategies and tactics used to improve the visibility and ranking of a website on search engine results pages (SERPs). SEO Internet marketing services involve a range of techniques designed to help businesses increase their online visibility, attract more organic traffic, and improve their search engine rankings.</p>
-            
-            <h3>Our SEO Services Include:</h3>
-            <ul>
-                <li><strong>On-Page SEO:</strong> Optimization of content, meta tags, headers, images, and internal linking structure to improve search engine friendliness.</li>
-                <li><strong>Off-Page SEO:</strong> Building high-quality backlinks from authoritative sites to improve domain authority and rankings.</li>
-                <li><strong>Technical SEO:</strong> Site speed optimization, mobile responsiveness, structured data, XML sitemaps, and crawlability improvements.</li>
-                <li><strong>Local SEO:</strong> Optimization for local search including Google My Business, local citations, and location-specific content.</li>
-                <li><strong>Content Marketing:</strong> Creating valuable, SEO-optimized content that attracts and engages your target audience.</li>
-                <li><strong>Keyword Research:</strong> Identifying high-value keywords and search terms your customers are using.</li>
-            </ul>
-            
-            <h3>Digital Marketing Services:</h3>
-            <ul>
-                <li><strong>Social Media Marketing:</strong> Strategic campaigns across Facebook, Instagram, LinkedIn, Twitter, and other platforms.</li>
-                <li><strong>Pay-Per-Click (PPC) Advertising:</strong> Google Ads, Facebook Ads, and other paid campaigns with optimized ROI.</li>
-                <li><strong>Email Marketing:</strong> Targeted email campaigns, newsletters, and automated drip sequences.</li>
-                <li><strong>Content Marketing:</strong> Blog posts, articles, videos, infographics, and other engaging content.</li>
-                <li><strong>Conversion Rate Optimization:</strong> A/B testing and optimization to turn more visitors into customers.</li>
-                <li><strong>Analytics & Reporting:</strong> Detailed insights into campaign performance and ROI.</li>
-            </ul>
-            
-            <h3>On-Page Optimization:</h3>
-            <p>SEO services include on-page optimization, which involves optimizing the content and structure of a website to make it more search engine friendly. This includes optimizing meta tags, headers, content, images, and internal links. We ensure every page is optimized for both search engines and user experience.</p>
-            
-            <h3>Off-Page Optimization:</h3>
-            <p>Off-page optimization involves building high-quality backlinks to a website from other authoritative sites, which can improve its search engine rankings. We use white-hat link building strategies including guest posting, digital PR, broken link building, and content marketing to build your site's authority.</p>
-            
-            <h3>Our Digital Marketing Process:</h3>
-            <ul>
-                <li><strong>Audit & Analysis:</strong> Comprehensive review of your current digital presence</li>
-                <li><strong>Strategy Development:</strong> Custom strategy based on your goals and target audience</li>
-                <li><strong>Implementation:</strong> Execution of SEO and marketing campaigns</li>
-                <li><strong>Monitoring & Optimization:</strong> Continuous tracking and refinement for better results</li>
-                <li><strong>Reporting:</strong> Regular reports showing progress and ROI</li>
-            </ul>
-            
-            <h3>Why Choose Our SEO & Marketing Services?</h3>
-            <ul>
-                <li>Proven track record of improving rankings and traffic</li>
-                <li>Data-driven strategies with measurable results</li>
-                <li>White-hat techniques that comply with search engine guidelines</li>
-                <li>Transparent reporting and communication</li>
-                <li>Dedicated account manager</li>
-                <li>Stay ahead of algorithm updates and industry trends</li>
-            </ul>
-            
-            <p><strong>Grow Your Online Presence:</strong> Our SEO and digital marketing services help businesses increase visibility, attract qualified traffic, and convert visitors into customers. Let us help you dominate search results and grow your business online.</p>
-        `
+    'ml-data-science': {
+    title: 'Machine Learning & Data Science',
+    content: `
+        <h3>Transform Data into Actionable Intelligence</h3>
+        <p>We help businesses unlock the power of their data through advanced machine learning algorithms, predictive analytics, and data-driven insights. Our team of data scientists and ML engineers build custom solutions that solve real business problems and drive measurable results.</p>
+        
+        <h3>Machine Learning Services:</h3>
+        <ul>
+            <li><strong>Predictive Analytics:</strong> Forecast trends, customer behavior, and business outcomes using advanced ML models.</li>
+            <li><strong>Computer Vision:</strong> Image recognition, object detection, facial recognition, and visual inspection systems.</li>
+            <li><strong>Natural Language Processing:</strong> Sentiment analysis, chatbots, text classification, and language understanding.</li>
+            <li><strong>Recommendation Systems:</strong> Personalized product, content, and service recommendations to boost engagement.</li>
+            <li><strong>Anomaly Detection:</strong> Identify fraud, security threats, and operational issues in real-time.</li>
+            <li><strong>Time Series Forecasting:</strong> Predict sales, demand, inventory needs, and market trends.</li>
+            <li><strong>Deep Learning Solutions:</strong> Neural networks for complex pattern recognition and decision-making tasks.</li>
+        </ul>
+        
+        <h3>Data Science Services:</h3>
+        <ul>
+            <li><strong>Data Strategy & Consulting:</strong> Develop a roadmap for leveraging data as a strategic asset</li>
+            <li><strong>Data Engineering:</strong> Build robust data pipelines, ETL processes, and data warehousing solutions</li>
+            <li><strong>Data Visualization:</strong> Interactive dashboards and reports for data-driven decision making</li>
+            <li><strong>Statistical Analysis:</strong> Advanced statistical modeling and hypothesis testing</li>
+            <li><strong>Big Data Solutions:</strong> Process and analyze massive datasets using distributed computing</li>
+            <li><strong>A/B Testing & Experimentation:</strong> Design and analyze experiments to optimize business outcomes</li>
+            <li><strong>Data Governance:</strong> Ensure data quality, security, and compliance</li>
+        </ul>
+        
+        <h3>Our ML/DS Tech Stack:</h3>
+        <ul>
+            <li><strong>ML Frameworks:</strong> TensorFlow, PyTorch, Scikit-learn, XGBoost, Keras</li>
+            <li><strong>Cloud Platforms:</strong> AWS SageMaker, Google Cloud AI, Azure ML, Databricks</li>
+            <li><strong>Data Processing:</strong> Apache Spark, Hadoop, Pandas, NumPy, Dask</li>
+            <li><strong>Visualization:</strong> Tableau, Power BI, Plotly, D3.js, Matplotlib</li>
+            <li><strong>MLOps Tools:</strong> MLflow, Kubeflow, Docker, Kubernetes</li>
+            <li><strong>Databases:</strong> PostgreSQL, MongoDB, Redis, Elasticsearch, Snowflake</li>
+        </ul>
+        
+        <h3>Industry-Specific Solutions:</h3>
+        <ul>
+            <li><strong>Healthcare:</strong> Disease prediction, medical image analysis, patient risk stratification</li>
+            <li><strong>Finance:</strong> Credit scoring, fraud detection, algorithmic trading, risk assessment</li>
+            <li><strong>Retail:</strong> Demand forecasting, price optimization, customer segmentation, churn prediction</li>
+            <li><strong>Manufacturing:</strong> Predictive maintenance, quality control, supply chain optimization</li>
+            <li><strong>Marketing:</strong> Customer lifetime value, marketing attribution, campaign optimization</li>
+        </ul>
+        
+        <h3>Our ML Development Process:</h3>
+        <ul>
+            <li><strong>Discovery & Assessment:</strong> Understand your business problem and data landscape</li>
+            <li><strong>Data Collection & Preparation:</strong> Gather, clean, and engineer features from your data</li>
+            <li><strong>Model Development:</strong> Build, train, and validate machine learning models</li>
+            <li><strong>Model Evaluation:</strong> Test performance using relevant metrics and real-world scenarios</li>
+            <li><strong>Deployment & Integration:</strong> Deploy models to production with API endpoints</li>
+            <li><strong>Monitoring & Maintenance:</strong> Continuous model monitoring and retraining</li>
+        </ul>
+        
+        <h3>Deliverables:</h3>
+        <ul>
+            <li>Production-ready ML models with documented performance metrics</li>
+            <li>Interactive dashboards and visualization tools</li>
+            <li>API endpoints for model integration</li>
+            <li>Comprehensive documentation and knowledge transfer</li>
+            <li>Model monitoring and alerting systems</li>
+            <li>Training materials for your team</li>
+        </ul>
+        
+        <h3>Why Choose Our ML/DS Services:</h3>
+        <ul>
+            <li>End-to-end solutions from data to deployment</li>
+            <li>Experienced team with domain expertise</li>
+            <li>Focus on business value, not just technical metrics</li>
+            <li>Scalable and maintainable solutions</li>
+            <li>Transparent methodology and explainable AI</li>
+            <li>Ongoing support and model improvement</li>
+        </ul>
+        
+        <p><strong>Turn Your Data into Your Competitive Advantage:</strong> Whether you're just starting your data science journey or looking to scale existing ML capabilities, we provide the expertise and technology to help you make smarter, data-driven decisions. Let's unlock the hidden value in your data together.</p>
+    `
     }
 };
 
