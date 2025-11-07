@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // OPTION 2: Web3Forms (works immediately - no activation needed)
             // Get your free access key from: https://web3forms.com
-            formData.append('access_key', 'YOUR_WEB3FORMS_ACCESS_KEY_HERE');
+            formData.append('access_key', 'fbe430f3-6eeb-47df-9199-c8e498379ad4');
             formData.append('subject', `New Internship Application - ${selectedInternship}`);
             formData.append('from_name', 'Internship Portal');
             formData.set('technology', selectedInternship);
