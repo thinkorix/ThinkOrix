@@ -393,13 +393,16 @@
     
     <!-- Scripts -->
     <script src="navbar.js"></script>
-    <!-- Firebase SDK -->
-<script src="https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/12.5.0/firebase-firestore.js"></script>
-<script src="https://www.gstatic.com/firebasejs/12.5.0/firebase-storage.js"></script>
+    <script src="career.js"></script>
+    <!-- Replace the Firebase script section in your HTML with this: -->
+
+<!-- Firebase SDK - CORRECTED VERSION -->
+<!-- <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
 
 <script>
-// ✅ YOUR FIREBASE CONFIG (CHANGE THESE 6 LINES ONLY)
+// ✅ YOUR FIREBASE CONFIG
 const firebaseConfig = {
     apiKey: "AIzaSyD3iHQ9vRHoXV9Z22snLldYvXwTPoEsOnk",
     authDomain: "thinkaura-6f83a.firebaseapp.com",
@@ -408,19 +411,16 @@ const firebaseConfig = {
     messagingSenderId: "647517389973",
     appId: "1:647517389973:web:a77b71c34f67d6201cc79c",
     measurementId: "G-E31RF1VKPJ"
-  };
-
+};
 
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 const storage = firebase.storage();
 
-
-// ✅ YOUR FULL APPLICATION SCRIPT
+// ✅ APPLICATION SCRIPT
 document.addEventListener('DOMContentLoaded', function() {
     createModalHTML();
     
-    const applyButtons = document.querySelectorAll('.apply-btn');
     const modalOverlay = document.getElementById('modalOverlay');
     const modalContainer = document.getElementById('modalContainer');
     const closeModalBtn = document.getElementById('closeModal');
@@ -428,19 +428,28 @@ document.addEventListener('DOMContentLoaded', function() {
     
     let selectedInternship = '';
     
-    applyButtons.forEach((button) => {
-        button.addEventListener('click', function() {
-            const card = this.closest('.internship-card');
-            const internshipTitle = card.querySelector('h2').textContent;
-            selectedInternship = internshipTitle;
+    // Wait a bit for DOM to fully settle
+    setTimeout(() => {
+        const applyButtons = document.querySelectorAll('.apply-btn');
+        console.log('Found apply buttons:', applyButtons.length); // Debug line
+        
+        applyButtons.forEach((button) => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault(); // Prevent any default behavior
+                console.log('Apply button clicked'); // Debug line
+                
+                const card = this.closest('.internship-card');
+                const internshipTitle = card.querySelector('h2').textContent;
+                selectedInternship = internshipTitle;
 
-            const techSelect = document.getElementById('technology');
-            techSelect.value = internshipTitle;
-            techSelect.disabled = true;
+                const techInput = document.getElementById('technology');
+                techInput.value = internshipTitle;
+                techInput.disabled = true;
 
-            openModal();
+                openModal();
+            });
         });
-    });
+    }, 100);
     
     closeModalBtn.addEventListener('click', closeModal);
     modalOverlay.addEventListener('click', closeModal);
@@ -458,21 +467,42 @@ document.addEventListener('DOMContentLoaded', function() {
         data.technology = selectedInternship;
 
         const resumeFile = document.getElementById('resume').files[0];
+        
+        if (!resumeFile) {
+            alert("Please upload your resume");
+            return;
+        }
+
         const storageRef = storage.ref(`resumes/${Date.now()}_${resumeFile.name}`);
 
         try {
+            // Show loading state
+            const submitBtn = document.querySelector('.submit-btn');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'SUBMITTING...';
+
             await storageRef.put(resumeFile);
             const resumeURL = await storageRef.getDownloadURL();
             data.resumeURL = resumeURL;
+            data.submittedAt = new Date().toISOString();
 
             await db.collection("internshipApplications").add(data);
 
             showSuccessMessage();
-            setTimeout(() => { closeModal(); applicationForm.reset(); }, 2000);
+            
+            setTimeout(() => { 
+                closeModal(); 
+                applicationForm.reset();
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'SUBMIT';
+            }, 2000);
 
         } catch (error) {
-            alert("Error submitting form!");
+            alert("Error submitting form: " + error.message);
             console.error(error);
+            const submitBtn = document.querySelector('.submit-btn');
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'SUBMIT';
         }
     });
 
@@ -481,18 +511,59 @@ document.addEventListener('DOMContentLoaded', function() {
             <div class="modal-overlay" id="modalOverlay"></div>
             <div class="modal-container" id="modalContainer">
                 <div class="modal-header">
+                    <div class="modal-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20 7h-3a2 2 0 0 1-2-2V2" />
+                            <path d="M9 18v-6" />
+                            <path d="M15 18v-6" />
+                            <path d="M3 7v11a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-3L14 3H10L8 5H5a2 2 0 0 0-2 2z" />
+                        </svg>
+                    </div>
                     <h2>Job Application</h2>
+                    <p>Please fill the form to apply for the <b>paid</b> internship. Make sure the information you provided is correct.</p>
                     <button class="close-modal" id="closeModal">&times;</button>
                 </div>
                 <div class="modal-body">
                     <form id="applicationForm">
-                        <input type="text" id="fullName" name="fullName" placeholder="Full Name" required>
-                        <input type="email" id="email" name="email" placeholder="Email" required>
-                        <input type="tel" id="contact" name="contact" placeholder="Contact Number" required pattern="[0-9]{10}">
-                        <textarea id="address" name="address" placeholder="Your address" required></textarea>
-                        <input type="text" id="city" name="city" placeholder="City & State" required>
-                        <input type="text" id="technology" name="technology" placeholder="Technology" required>
-                        <input type="file" id="resume" name="resume" accept=".pdf,.doc,.docx" required>
+                        <div class="form-group">
+                            <label for="fullName">Full name</label>
+                            <input type="text" id="fullName" name="fullName" placeholder="Full Name" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" placeholder="Email" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="contact">Contact</label>
+                            <input type="tel" id="contact" name="contact" placeholder="Contact Number" required pattern="[0-9]{10}">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="address">Address</label>
+                            <textarea id="address" name="address" placeholder="Your address" required></textarea>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="city">Your City & State</label>
+                                <input type="text" id="city" name="city" placeholder="City & State" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="technology">Technology</label>
+                                <input type="text" id="technology" name="technology" placeholder="Technology" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="resume">Upload Resume</label>
+                            <div class="file-input-wrapper">
+                                <input type="file" id="resume" name="resume" accept=".pdf,.doc,.docx" required>
+                            </div>
+                        </div>
+                        
                         <button type="submit" class="submit-btn">SUBMIT</button>
                     </form>
                 </div>
@@ -502,6 +573,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function openModal() {
+        console.log('Opening modal'); // Debug line
         modalOverlay.classList.add('active');
         modalContainer.classList.add('active');
         document.body.style.overflow = 'hidden';
@@ -516,13 +588,50 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function validateForm() {
-        return true;
+        const form = applicationForm;
+        const inputs = form.querySelectorAll('input[required]:not([disabled]), textarea[required]');
+        let isValid = true;
+        
+        inputs.forEach(input => {
+            if (!input.value.trim()) {
+                isValid = false;
+                input.style.borderColor = '#ff6b6b';
+            } else {
+                input.style.borderColor = 'rgba(255,255,255,0.2)';
+            }
+        });
+        
+        return isValid;
     }
 
     function showSuccessMessage() {
-        alert("✅ Application Submitted Successfully!");
+        const successDiv = document.createElement('div');
+        successDiv.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #48bb78;
+            color: white;
+            padding: 20px 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            z-index: 10000;
+            font-weight: 600;
+            animation: slideIn 0.3s ease;
+        `;
+        successDiv.innerHTML = '✅ Application Submitted Successfully!';
+        document.body.appendChild(successDiv);
+        
+        setTimeout(() => successDiv.remove(), 3000);
     }
+
+    // Close modal on ESC key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && modalContainer.classList.contains('active')) {
+            closeModal();
+        }
+    });
 });
-</script>
+</script> -->
 </body>
 </html>

@@ -10,9 +10,9 @@ html {
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: #333;
+    color: #e4e6eb;
     overflow-x: hidden;
-    background-color: #f8f9fa;
+    background-color: #0f1419;
     min-height: 100%;
     display: flex;
     flex-direction: column;
@@ -29,17 +29,17 @@ body {
 
 /* Internship Card */
 .internship-card {
-    background: white;
+    background: #1a1f2e;
     border-radius: 20px;
     padding: 45px 50px;
     margin-bottom: 35px;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.5);
     display: grid;
     grid-template-columns: 140px 1fr auto;
     gap: 45px;
     align-items: center;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    border: 1px solid rgba(0,0,0,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
     position: relative;
     overflow: hidden;
 }
@@ -51,15 +51,15 @@ body {
     left: 0;
     width: 5px;
     height: 100%;
-    background: linear-gradient(180deg, #667eea, #3255f0);
+    background: linear-gradient(180deg, #667eea, #4a9eff);
     transform: scaleY(0);
     transition: transform 0.4s ease;
 }
 
 .internship-card:hover {
     transform: translateY(-8px);
-    box-shadow: 0 15px 45px rgba(0,0,0,0.12);
-    border-color: rgba(220, 53, 69, 0.2);
+    box-shadow: 0 15px 45px rgba(74, 158, 255, 0.3);
+    border-color: rgba(74, 158, 255, 0.3);
 }
 
 .internship-card:hover::before {
@@ -73,16 +73,16 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    background: linear-gradient(135deg, #252b3d 0%, #1a1f2e 100%);
     border-radius: 16px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
     transition: all 0.4s ease;
     position: relative;
 }
 
 .internship-card:hover .internship-icon {
     transform: scale(1.05) rotate(5deg);
-    box-shadow: 0 8px 25px rgba(220, 53, 69, 0.15);
+    box-shadow: 0 8px 25px rgba(74, 158, 255, 0.4);
 }
 
 .internship-icon img,
@@ -94,7 +94,7 @@ body {
 
 /* Content Section */
 .internship-content h2 {
-    color: #2d3748;
+    color: #e4e6eb;
     font-size: 1.85rem;
     margin-bottom: 20px;
     font-weight: 700;
@@ -105,7 +105,7 @@ body {
     display: flex;
     flex-wrap: wrap;
     gap: 30px;
-    color: #718096;
+    color: #b0b8c1;
     font-size: 0.95rem;
 }
 
@@ -114,20 +114,20 @@ body {
     align-items: center;
     gap: 10px;
     padding: 8px 16px;
-    background: #f7fafc;
+    background: #252b3d;
     border-radius: 8px;
     transition: all 0.3s;
 }
 
 .detail-item:hover {
-    background: #edf2f7;
+    background: #2d3548;
     transform: translateX(3px);
 }
 
 .detail-item svg {
     width: 20px;
     height: 20px;
-    color: #0066cc;
+    color: #4a9eff;
     flex-shrink: 0;
 }
 
@@ -137,8 +137,8 @@ body {
 
 /* Apply Button */
 .apply-btn {
-    background: linear-gradient(135deg, #2d4373 0%, #1a2844 100%);
-    color: white;
+    background: linear-gradient(135deg, #4a9eff 0%, #3255f0 100%);
+    color: #ffffff;
     padding: 16px 45px;
     border: none;
     border-radius: 10px;
@@ -149,7 +149,7 @@ body {
     text-transform: uppercase;
     letter-spacing: 1.5px;
     white-space: nowrap;
-    box-shadow: 0 6px 20px rgba(45, 67, 115, 0.25);
+    box-shadow: 0 6px 20px rgba(74, 158, 255, 0.4);
     position: relative;
     overflow: hidden;
 }
@@ -171,7 +171,7 @@ body {
 
 .apply-btn:hover {
     transform: translateY(-3px);
-    box-shadow: 0 10px 30px rgba(45, 67, 115, 0.35);
+    box-shadow: 0 10px 30px rgba(74, 158, 255, 0.5);
 }
 
 .apply-btn:active {
@@ -186,7 +186,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.6);
+    background: rgba(0, 0, 0, 0.8);
     backdrop-filter: blur(4px);
     z-index: 9998;
     animation: fadeIn 0.3s ease;
@@ -206,12 +206,13 @@ body {
     width: 90%;
     max-width: 600px;
     max-height: 90vh;
-    background: white;
+    background: #1a1f2e;
     border-radius: 16px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
     z-index: 9999;
     overflow-y: auto;
     animation: slideIn 0.3s ease;
+    border: 1px solid rgba(255,255,255,0.1);
 }
 
 .modal-container.active {
@@ -223,14 +224,14 @@ body {
     position: relative;
     padding: 30px 30px 20px;
     text-align: center;
-    border-bottom: 1px solid #e2e8f0;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
 }
 
 .modal-icon {
     width: 60px;
     height: 60px;
     margin: 0 auto 15px;
-    background: linear-gradient(135deg, #2d4373 0%, #1a2844 100%);
+    background: linear-gradient(135deg, #4a9eff 0%, #3255f0 100%);
     border-radius: 12px;
     display: flex;
     align-items: center;
@@ -245,12 +246,12 @@ body {
 
 .modal-header h2 {
     font-size: 1.75rem;
-    color: #2d3748;
+    color: #e4e6eb;
     margin-bottom: 8px;
 }
 
 .modal-header p {
-    color: #718096;
+    color: #b0b8c1;
     font-size: 0.9rem;
 }
 
@@ -260,7 +261,7 @@ body {
     right: 20px;
     width: 32px;
     height: 32px;
-    background: #f7fafc;
+    background: #252b3d;
     border: none;
     border-radius: 50%;
     cursor: pointer;
@@ -269,12 +270,13 @@ body {
     justify-content: center;
     transition: all 0.2s ease;
     font-size: 24px;
-    color: #4a5568;
+    color: #b0b8c1;
 }
 
 .close-modal:hover {
-    background: #e2e8f0;
+    background: #2d3548;
     transform: rotate(90deg);
+    color: #e4e6eb;
 }
 
 /* Modal Body */
@@ -289,7 +291,7 @@ body {
 .form-group label {
     display: block;
     margin-bottom: 8px;
-    color: #2d3748;
+    color: #e4e6eb;
     font-weight: 500;
     font-size: 0.95rem;
 }
@@ -299,19 +301,21 @@ body {
 .form-group select {
     width: 100%;
     padding: 12px 16px;
-    border: 1.5px solid #e2e8f0;
+    border: 1.5px solid rgba(255,255,255,0.2);
     border-radius: 8px;
     font-size: 0.95rem;
     transition: all 0.2s ease;
     font-family: inherit;
+    background: #252b3d;
+    color: #e4e6eb;
 }
 
 .form-group input:focus,
 .form-group textarea:focus,
 .form-group select:focus {
     outline: none;
-    border-color: #2d4373;
-    box-shadow: 0 0 0 3px rgba(45, 67, 115, 0.1);
+    border-color: #4a9eff;
+    box-shadow: 0 0 0 3px rgba(74, 158, 255, 0.2);
 }
 
 .form-group textarea {
@@ -336,22 +340,23 @@ body {
 
 .file-input-wrapper input[type="file"]::file-selector-button {
     padding: 8px 16px;
-    background: #f7fafc;
-    border: 1.5px solid #e2e8f0;
+    background: #252b3d;
+    border: 1.5px solid rgba(255,255,255,0.2);
     border-radius: 6px;
     cursor: pointer;
     margin-right: 10px;
     transition: all 0.2s ease;
+    color: #e4e6eb;
 }
 
 .file-input-wrapper input[type="file"]::file-selector-button:hover {
-    background: #edf2f7;
+    background: #2d3548;
 }
 
 .submit-btn {
     width: 100%;
     padding: 14px;
-    background: linear-gradient(135deg, #2d4373 0%, #1a2844 100%);
+    background: linear-gradient(135deg, #4a9eff 0%, #3255f0 100%);
     color: white;
     border: none;
     border-radius: 8px;
@@ -366,7 +371,7 @@ body {
 
 .submit-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(45, 67, 115, 0.4);
+    box-shadow: 0 6px 20px rgba(74, 158, 255, 0.5);
 }
 
 .submit-btn:active {
@@ -382,23 +387,23 @@ body {
 /* Locked field styling */
 .form-group input:disabled,
 .form-group select:disabled {
-    background: #f7fafc;
-    color: #4a5568;
+    background: #1a1f2e;
+    color: #b0b8c1;
     cursor: not-allowed;
-    border-color: #cbd5e0;
+    border-color: rgba(255,255,255,0.1);
 }
 
 /* Validation Styles */
 .form-group input:invalid:not(:placeholder-shown),
 .form-group select:invalid:not(:placeholder-shown),
 .form-group textarea:invalid:not(:placeholder-shown) {
-    border-color: #f56565;
+    border-color: #ff6b6b;
 }
 
 .form-group input:valid:not(:placeholder-shown),
 .form-group select:valid:not(:placeholder-shown),
 .form-group textarea:valid:not(:placeholder-shown) {
-    border-color: #48bb78;
+    border-color: #51cf66;
 }
 
 /* Animations */
@@ -457,13 +462,13 @@ body {
 }
 
 .hamburger:hover {
-    background: rgba(220, 53, 69, 0.1);
+    background: rgba(74, 158, 255, 0.2);
 }
 
 .hamburger span {
     width: 28px;
     height: 3px;
-    background: #2d4373;
+    background: #4a9eff;
     border-radius: 3px;
     transition: all 0.3s;
 } */
