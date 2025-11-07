@@ -410,6 +410,446 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
+
+
+
+
+// // Initialize EmailJS with your Public Key
+// (function() {
+//     emailjs.init({
+//         publicKey: "N7Qk-3SH-uMcmYv8v", // Replace with your EmailJS public key
+//     });
+// })();
+
+// // Wait for DOM to be fully loaded
+// document.addEventListener('DOMContentLoaded', function() {
+//     // Create modal HTML and inject into the page
+//     createModalHTML();
+    
+//     // Get all apply buttons
+//     const applyButtons = document.querySelectorAll('.apply-btn');
+//     const modalOverlay = document.getElementById('modalOverlay');
+//     const modalContainer = document.getElementById('modalContainer');
+//     const closeModalBtn = document.getElementById('closeModal');
+//     const applicationForm = document.getElementById('applicationForm');
+    
+//     let selectedInternship = '';
+    
+//     // Add click event to all apply buttons
+//     applyButtons.forEach((button, index) => {
+//         button.addEventListener('click', function() {
+//             const card = this.closest('.internship-card');
+//             const internshipTitle = card.querySelector('h2').textContent;
+//             selectedInternship = internshipTitle;
+            
+//             const techInput = document.getElementById('technology');
+//             if (techInput) {
+//                 techInput.value = internshipTitle;
+//                 techInput.readOnly = true;
+//                 techInput.style.background = '#1a1f2e';
+//                 techInput.style.cursor = 'not-allowed';
+//             }
+            
+//             openModal();
+//         });
+//     });
+    
+//     // Close modal handlers
+//     closeModalBtn.addEventListener('click', closeModal);
+//     modalOverlay.addEventListener('click', closeModal);
+//     modalContainer.addEventListener('click', function(e) {
+//         e.stopPropagation();
+//     });
+    
+//     // Handle form submission with EmailJS
+//     applicationForm.addEventListener('submit', async function(e) {
+//         e.preventDefault();
+        
+//         if (!validateForm()) {
+//             return;
+//         }
+        
+//         const submitBtn = applicationForm.querySelector('.submit-btn');
+//         const originalBtnText = submitBtn.textContent;
+//         submitBtn.textContent = 'SUBMITTING...';
+//         submitBtn.disabled = true;
+//         submitBtn.style.opacity = '0.7';
+        
+//         try {
+//             // Get form values
+//             const name = document.getElementById('fullName').value;
+//             const email = document.getElementById('email').value;
+//             const contact = document.getElementById('contact').value;
+//             const address = document.getElementById('address').value;
+//             const city = document.getElementById('city').value;
+//             const technology = selectedInternship;
+            
+//             // Get file
+//             const fileInput = document.getElementById('resume');
+//             const file = fileInput.files[0];
+            
+//             // Read file as base64
+//             const reader = new FileReader();
+//             reader.readAsDataURL(file);
+            
+//             reader.onload = async function() {
+//                 const base64File = reader.result.split(',')[1];
+                
+//                 // Prepare template parameters
+//                 const templateParams = {
+//                     to_email: 'thinkorix@gmail.com',
+//                     from_name: name,
+//                     from_email: email,
+//                     contact: contact,
+//                     address: address,
+//                     city: city,
+//                     technology: technology,
+//                     subject: `New Internship Application - ${technology}`,
+//                     message: `
+// New internship application received:
+
+// Name: ${name}
+// Email: ${email}
+// Contact: ${contact}
+// Address: ${address}
+// City: ${city}
+// Technology: ${technology}
+
+// Resume attached.
+//                     `,
+//                     attachment: base64File,
+//                     attachment_name: file.name
+//                 };
+                
+//                 try {
+//                     // Send email using EmailJS
+//                     const response = await emailjs.send(
+//                         'service_zj9vz1t',      // Replace with your Service ID
+//                         'template_7sbsm1b',     // Replace with your Template ID
+//                         templateParams
+//                     );
+                    
+//                     console.log('SUCCESS!', response.status, response.text);
+//                     showSuccessMessage();
+                    
+//                     setTimeout(() => {
+//                         closeModal();
+//                         applicationForm.reset();
+//                     }, 2500);
+                    
+//                 } catch (error) {
+//                     console.error('FAILED...', error);
+//                     throw error;
+//                 }
+//             };
+            
+//             reader.onerror = function() {
+//                 throw new Error('Failed to read file');
+//             };
+            
+//         } catch (error) {
+//             console.error('Error:', error);
+//             showErrorMessage('Failed to submit application. Please try again.');
+//         } finally {
+//             submitBtn.textContent = originalBtnText;
+//             submitBtn.disabled = false;
+//             submitBtn.style.opacity = '1';
+//         }
+//     });
+    
+//     function createModalHTML() {
+//         const modalHTML = `
+//             <div class="modal-overlay" id="modalOverlay"></div>
+//             <div class="modal-container" id="modalContainer">
+//                 <div class="modal-header">
+//                     <div class="modal-icon">
+//                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+//                             <path d="M20 7h-3a2 2 0 0 1-2-2V2" />
+//                             <path d="M9 18v-6" />
+//                             <path d="M15 18v-6" />
+//                             <path d="M3 7v11a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-3L14 3H10L8 5H5a2 2 0 0 0-2 2z" />
+//                         </svg>
+//                     </div>
+//                     <h2>Job Application</h2>
+//                     <p>Please fill the form to apply for the <b>paid</b> internship. Make sure the information you provided is correct.</p>
+//                     <button class="close-modal" id="closeModal">&times;</button>
+//                 </div>
+//                 <div class="modal-body">
+//                     <form id="applicationForm">
+//                         <div class="form-group">
+//                             <label for="fullName">Full name</label>
+//                             <input type="text" id="fullName" name="name" placeholder="Full Name" required>
+//                         </div>
+                        
+//                         <div class="form-group">
+//                             <label for="email">Email</label>
+//                             <input type="email" id="email" name="email" placeholder="Email" required>
+//                         </div>
+                        
+//                         <div class="form-group">
+//                             <label for="contact">Contact</label>
+//                             <input type="tel" id="contact" name="contact" placeholder="Contact Number" required pattern="[0-9]{10}">
+//                         </div>
+                        
+//                         <div class="form-group">
+//                             <label for="address">Address</label>
+//                             <textarea id="address" name="address" placeholder="Your address" required></textarea>
+//                         </div>
+                        
+//                         <div class="form-row">
+//                             <div class="form-group">
+//                                 <label for="city">Your City & State</label>
+//                                 <input type="text" id="city" name="city" placeholder="City & State" required>
+//                             </div>
+                            
+//                             <div class="form-group">
+//                                 <label for="technology">Technology</label>
+//                                 <input type="text" id="technology" name="technology" placeholder="Technology" required readonly>
+//                             </div>
+//                         </div>
+                        
+//                         <div class="form-group">
+//                             <label for="resume">Upload Resume</label>
+//                             <div class="file-input-wrapper">
+//                                 <input type="file" id="resume" name="attachment" accept=".pdf,.doc,.docx" required>
+//                             </div>
+//                             <small style="color: #b0b8c1;">Max file size: 500KB (EmailJS free plan)</small>
+//                         </div>
+                        
+//                         <button type="submit" class="submit-btn">SUBMIT</button>
+//                     </form>
+//                 </div>
+//             </div>
+//         `;
+        
+//         document.body.insertAdjacentHTML('beforeend', modalHTML);
+//     }
+    
+//     function openModal() {
+//         modalOverlay.classList.add('active');
+//         modalContainer.classList.add('active');
+//         document.body.style.overflow = 'hidden';
+//     }
+    
+//     function closeModal() {
+//         modalOverlay.classList.remove('active');
+//         modalContainer.classList.remove('active');
+//         document.body.style.overflow = '';
+        
+//         const techInput = document.getElementById('technology');
+//         if (techInput) {
+//             techInput.readOnly = false;
+//             techInput.style.background = '';
+//             techInput.style.cursor = '';
+//         }
+//     }
+    
+//     function validateForm() {
+//         const form = applicationForm;
+//         const inputs = form.querySelectorAll('input[required]:not([readonly]), textarea[required]');
+//         let isValid = true;
+        
+//         inputs.forEach(input => {
+//             if (!input.value.trim()) {
+//                 isValid = false;
+//                 input.style.borderColor = '#f56565';
+//                 showErrorTooltip(input, 'Please fill in this field');
+//             } else {
+//                 input.style.borderColor = 'rgba(255,255,255,0.2)';
+//             }
+//         });
+        
+//         const emailInput = document.getElementById('email');
+//         const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+//         if (emailInput.value && !emailPattern.test(emailInput.value)) {
+//             isValid = false;
+//             emailInput.style.borderColor = '#f56565';
+//             showErrorTooltip(emailInput, 'Please enter a valid email address');
+//         }
+        
+//         const contactInput = document.getElementById('contact');
+//         const phonePattern = /^[0-9]{10}$/;
+//         if (contactInput.value && !phonePattern.test(contactInput.value)) {
+//             isValid = false;
+//             contactInput.style.borderColor = '#f56565';
+//             showErrorTooltip(contactInput, 'Please enter a valid 10-digit phone number');
+//         }
+        
+//         const resumeInput = document.getElementById('resume');
+//         if (!resumeInput.files || resumeInput.files.length === 0) {
+//             isValid = false;
+//             resumeInput.style.borderColor = '#f56565';
+//             showErrorTooltip(resumeInput, 'Please upload your resume');
+//         } else {
+//             const fileSize = resumeInput.files[0].size / 1024; // in KB
+//             if (fileSize > 500) {
+//                 isValid = false;
+//                 resumeInput.style.borderColor = '#f56565';
+//                 showErrorTooltip(resumeInput, 'File size should not exceed 500KB for EmailJS free plan');
+//             }
+//         }
+        
+//         return isValid;
+//     }
+    
+//     function showErrorTooltip(element, message) {
+//         const existingTooltip = element.parentElement.querySelector('.error-tooltip');
+//         if (existingTooltip) {
+//             existingTooltip.remove();
+//         }
+        
+//         const tooltip = document.createElement('div');
+//         tooltip.className = 'error-tooltip';
+//         tooltip.textContent = message;
+//         tooltip.style.cssText = `
+//             position: absolute;
+//             top: 100%;
+//             left: 0;
+//             background: #f56565;
+//             color: white;
+//             padding: 5px 10px;
+//             border-radius: 4px;
+//             font-size: 0.85rem;
+//             margin-top: 5px;
+//             z-index: 10;
+//             animation: fadeIn 0.2s ease;
+//         `;
+        
+//         element.parentElement.style.position = 'relative';
+//         element.parentElement.appendChild(tooltip);
+        
+//         setTimeout(() => {
+//             tooltip.remove();
+//         }, 3000);
+//     }
+    
+//     function showSuccessMessage() {
+//         const successMessage = document.createElement('div');
+//         successMessage.style.cssText = `
+//             position: fixed;
+//             top: 20px;
+//             right: 20px;
+//             background: #48bb78;
+//             color: white;
+//             padding: 15px 20px;
+//             border-radius: 8px;
+//             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+//             z-index: 10000;
+//             animation: slideInRight 0.3s ease;
+//             font-weight: 600;
+//         `;
+//         successMessage.innerHTML = `
+//             <strong style="font-size: 1.1rem;">✓ Success!</strong><br>
+//             <span style="font-size: 0.9rem;">Your application has been submitted successfully.</span>
+//         `;
+        
+//         document.body.appendChild(successMessage);
+        
+//         setTimeout(() => {
+//             successMessage.style.animation = 'slideOutRight 0.3s ease';
+//             setTimeout(() => {
+//                 successMessage.remove();
+//             }, 300);
+//         }, 2500);
+//     }
+    
+//     function showErrorMessage(message) {
+//         const errorMessage = document.createElement('div');
+//         errorMessage.style.cssText = `
+//             position: fixed;
+//             top: 20px;
+//             right: 20px;
+//             background: #f56565;
+//             color: white;
+//             padding: 15px 20px;
+//             border-radius: 8px;
+//             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+//             z-index: 10000;
+//             animation: slideInRight 0.3s ease;
+//             font-weight: 600;
+//         `;
+//         errorMessage.innerHTML = `
+//             <strong style="font-size: 1.1rem;">✗ Error!</strong><br>
+//             <span style="font-size: 0.9rem;">${message}</span>
+//         `;
+        
+//         document.body.appendChild(errorMessage);
+        
+//         setTimeout(() => {
+//             errorMessage.style.animation = 'slideOutRight 0.3s ease';
+//             setTimeout(() => {
+//                 errorMessage.remove();
+//             }, 300);
+//         }, 3000);
+//     }
+    
+//     document.addEventListener('keydown', function(e) {
+//         if (e.key === 'Escape' && modalContainer.classList.contains('active')) {
+//             closeModal();
+//         }
+//     });
+// });
+
+// // Add animations CSS
+// const style = document.createElement('style');
+// style.textContent = `
+//     @keyframes slideInRight {
+//         from {
+//             transform: translateX(400px);
+//             opacity: 0;
+//         }
+//         to {
+//             transform: translateX(0);
+//             opacity: 1;
+//         }
+//     }
+    
+//     @keyframes slideOutRight {
+//         from {
+//             transform: translateX(0);
+//             opacity: 1;
+//         }
+//         to {
+//             transform: translateX(400px);
+//             opacity: 0;
+//         }
+//     }
+    
+//     @keyframes fadeIn {
+//         from {
+//             opacity: 0;
+//         }
+//         to {
+//             opacity: 1;
+//         }
+//     }
+// `;
+// document.head.appendChild(style);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // Wait for DOM to be fully loaded
 // document.addEventListener('DOMContentLoaded', function() {
 //     // Create modal HTML and inject into the page
