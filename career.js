@@ -21,16 +21,17 @@ document.addEventListener('DOMContentLoaded', function() {
             selectedInternship = internshipTitle;
             
             // Update and lock the technology field
-            const techSelect = document.getElementById('technology');
-            if (techSelect) {
+            const techInput = document.getElementById('technology');
+            if (techInput) {
                 // Set the selected technology
-                techSelect.value = internshipTitle;
+                techInput.value = internshipTitle;
                 
-                // Disable the select to make it non-changeable
-                techSelect.disabled = true;
+                // Make it read-only
+                techInput.readOnly = true;
                 
                 // Add visual indicator that it's locked
-                techSelect.style.background = '#f7fafc';
+                techInput.style.background = '#f7fafc';
+                techInput.style.cursor = 'not-allowed';
             }
             
             // Show modal
@@ -50,7 +51,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // Handle form submission
-    applicationForm.addEventListener('submit', function(e) {
+    applicationForm.addEventListener('submit', async function(e) {
         e.preventDefault();
         
         // Validate form
@@ -58,27 +59,82 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
-        // Get form data
-        const formData = new FormData(applicationForm);
-        const data = {};
-        formData.forEach((value, key) => {
-            data[key] = value;
-        });
+        // Show loading state
+        const submitBtn = applicationForm.querySelector('.submit-btn');
+        const originalBtnText = submitBtn.textContent;
+        submitBtn.textContent = 'SUBMITTING...';
+        submitBtn.disabled = true;
+        submitBtn.style.opacity = '0.7';
+        submitBtn.style.cursor = 'not-allowed';
         
-        // Add the locked technology value
-        data.technology = selectedInternship;
-        
-        // Show success message
-        showSuccessMessage();
-        
-        // Close modal after short delay
-        setTimeout(() => {
-            closeModal();
-            applicationForm.reset();
-        }, 2000);
-        
-        // In a real application, you would send this data to a server
-        console.log('Form submitted:', data);
+        try {
+            // Get form data
+            const formData = new FormData(applicationForm);
+            
+            // OPTION 1: FormSubmit (requires activation on first use)
+            // Uncomment this block to use FormSubmit
+            /*
+            formData.set('technology', selectedInternship);
+            formData.append('_subject', `New Internship Application - ${selectedInternship}`);
+            formData.append('_replyto', formData.get('email'));
+            formData.append('_captcha', 'false');
+            formData.append('_template', 'table');
+            
+            const response = await fetch('https://formsubmit.co/ajax/thinkorix@gmail.com', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            });
+            
+            const result = await response.json();
+            
+            if (response.ok && result.success) {
+                showSuccessMessage();
+                console.log('Form submitted successfully:', result);
+                setTimeout(() => {
+                    closeModal();
+                    applicationForm.reset();
+                }, 2500);
+            } else {
+                throw new Error(result.message || 'Submission failed');
+            }
+            */
+            
+            // OPTION 2: Web3Forms (works immediately - no activation needed)
+            // Get your free access key from: https://web3forms.com
+            formData.append('access_key', 'fbe430f3-6eeb-47df-9199-c8e498379ad4');
+            formData.append('subject', `New Internship Application - ${selectedInternship}`);
+            formData.append('from_name', 'Internship Portal');
+            formData.set('technology', selectedInternship);
+            
+            const response = await fetch('https://api.web3forms.com/submit', {
+                method: 'POST',
+                body: formData
+            });
+            
+            const result = await response.json();
+            
+            if (result.success) {
+                showSuccessMessage();
+                console.log('Form submitted successfully:', result);
+                setTimeout(() => {
+                    closeModal();
+                    applicationForm.reset();
+                }, 2500);
+            } else {
+                throw new Error(result.message || 'Submission failed');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            showErrorMessage('Failed to submit application. Please try again.');
+        } finally {
+            submitBtn.textContent = originalBtnText;
+            submitBtn.disabled = false;
+            submitBtn.style.opacity = '1';
+            submitBtn.style.cursor = 'pointer';
+        }
     });
     
     // Function to create modal HTML
@@ -103,7 +159,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <form id="applicationForm">
                         <div class="form-group">
                             <label for="fullName">Full name</label>
-                            <input type="text" id="fullName" name="fullName" placeholder="Full Name" required>
+                            <input type="text" id="fullName" name="name" placeholder="Full Name" required>
                         </div>
                         
                         <div class="form-group">
@@ -129,14 +185,14 @@ document.addEventListener('DOMContentLoaded', function() {
                             
                             <div class="form-group">
                                 <label for="technology">Technology</label>
-                                <input type="email" id="technology" name="technology" placeholder="technology" required>
+                                <input type="text" id="technology" name="technology" placeholder="Technology" required readonly>
                             </div>
                         </div>
                         
                         <div class="form-group">
                             <label for="resume">Upload Resume</label>
                             <div class="file-input-wrapper">
-                                <input type="file" id="resume" name="resume" accept=".pdf,.doc,.docx" required>
+                                <input type="file" id="resume" name="attachment" accept=".pdf,.doc,.docx" required>
                             </div>
                         </div>
                         
@@ -163,18 +219,19 @@ document.addEventListener('DOMContentLoaded', function() {
         modalContainer.classList.remove('active');
         document.body.style.overflow = '';
         
-        // Re-enable the technology select when closing
-        const techSelect = document.getElementById('technology');
-        if (techSelect) {
-            techSelect.disabled = false;
-            techSelect.style.background = '';
+        // Re-enable the technology input when closing
+        const techInput = document.getElementById('technology');
+        if (techInput) {
+            techInput.readOnly = false;
+            techInput.style.background = '';
+            techInput.style.cursor = '';
         }
     }
     
     // Function to validate form
     function validateForm() {
         const form = applicationForm;
-        const inputs = form.querySelectorAll('input[required]:not([disabled]), select[required]:not([disabled]), textarea[required]');
+        const inputs = form.querySelectorAll('input[required]:not([readonly]), select[required]:not([readonly]), textarea[required]');
         let isValid = true;
         
         inputs.forEach(input => {
@@ -205,6 +262,22 @@ document.addEventListener('DOMContentLoaded', function() {
             isValid = false;
             contactInput.style.borderColor = '#f56565';
             showErrorTooltip(contactInput, 'Please enter a valid 10-digit phone number');
+        }
+        
+        // Validate file upload
+        const resumeInput = document.getElementById('resume');
+        if (!resumeInput.files || resumeInput.files.length === 0) {
+            isValid = false;
+            resumeInput.style.borderColor = '#f56565';
+            showErrorTooltip(resumeInput, 'Please upload your resume');
+        } else {
+            // Check file size (max 10MB)
+            const fileSize = resumeInput.files[0].size / 1024 / 1024; // in MB
+            if (fileSize > 10) {
+                isValid = false;
+                resumeInput.style.borderColor = '#f56565';
+                showErrorTooltip(resumeInput, 'File size should not exceed 10MB');
+            }
         }
         
         return isValid;
@@ -274,7 +347,39 @@ document.addEventListener('DOMContentLoaded', function() {
             setTimeout(() => {
                 successMessage.remove();
             }, 300);
-        }, 2000);
+        }, 2500);
+    }
+    
+    // Function to show error message
+    function showErrorMessage(message) {
+        const errorMessage = document.createElement('div');
+        errorMessage.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #f56565;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            z-index: 10000;
+            animation: slideInRight 0.3s ease;
+            font-weight: 600;
+        `;
+        errorMessage.innerHTML = `
+            <strong style="font-size: 1.1rem;">✗ Error!</strong><br>
+            <span style="font-size: 0.9rem;">${message}</span>
+        `;
+        
+        document.body.appendChild(errorMessage);
+        
+        // Remove error message after 4 seconds
+        setTimeout(() => {
+            errorMessage.style.animation = 'slideOutRight 0.3s ease';
+            setTimeout(() => {
+                errorMessage.remove();
+            }, 300);
+        }, 3000);
     }
     
     // Close modal on ESC key press
@@ -307,6 +412,15 @@ style.textContent = `
         to {
             transform: translateX(400px);
             opacity: 0;
+        }
+    }
+    
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
         }
     }
 `;
