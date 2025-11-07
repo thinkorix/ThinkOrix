@@ -1,3 +1,10 @@
+// Initialize EmailJS with your Public Key
+(function() {
+    emailjs.init({
+        publicKey: "N7Qk-3SH-uMcmYv8v", // Replace with your EmailJS public key
+    });
+})();
+
 // Wait for DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', function() {
     // Create modal HTML and inject into the page
@@ -15,117 +22,115 @@ document.addEventListener('DOMContentLoaded', function() {
     // Add click event to all apply buttons
     applyButtons.forEach((button, index) => {
         button.addEventListener('click', function() {
-            // Get the internship title from the card
             const card = this.closest('.internship-card');
             const internshipTitle = card.querySelector('h2').textContent;
             selectedInternship = internshipTitle;
             
-            // Update and lock the technology field
             const techInput = document.getElementById('technology');
             if (techInput) {
-                // Set the selected technology
                 techInput.value = internshipTitle;
-                
-                // Make it read-only
                 techInput.readOnly = true;
-                
-                // Add visual indicator that it's locked
-                techInput.style.background = '#f7fafc';
+                techInput.style.background = '#1a1f2e';
                 techInput.style.cursor = 'not-allowed';
             }
             
-            // Show modal
             openModal();
         });
     });
     
-    // Close modal when clicking close button
+    // Close modal handlers
     closeModalBtn.addEventListener('click', closeModal);
-    
-    // Close modal when clicking overlay
     modalOverlay.addEventListener('click', closeModal);
-    
-    // Prevent closing when clicking inside modal
     modalContainer.addEventListener('click', function(e) {
         e.stopPropagation();
     });
     
-    // Handle form submission
+    // Handle form submission with EmailJS
     applicationForm.addEventListener('submit', async function(e) {
         e.preventDefault();
         
-        // Validate form
         if (!validateForm()) {
             return;
         }
         
-        // Show loading state
         const submitBtn = applicationForm.querySelector('.submit-btn');
         const originalBtnText = submitBtn.textContent;
         submitBtn.textContent = 'SUBMITTING...';
         submitBtn.disabled = true;
         submitBtn.style.opacity = '0.7';
-        submitBtn.style.cursor = 'not-allowed';
         
         try {
-            // Get form data
-            const formData = new FormData(applicationForm);
+            // Get form values
+            const name = document.getElementById('fullName').value;
+            const email = document.getElementById('email').value;
+            const contact = document.getElementById('contact').value;
+            const address = document.getElementById('address').value;
+            const city = document.getElementById('city').value;
+            const technology = selectedInternship;
             
-            // OPTION 1: FormSubmit (requires activation on first use)
-            // Uncomment this block to use FormSubmit
-            /*
-            formData.set('technology', selectedInternship);
-            formData.append('_subject', `New Internship Application - ${selectedInternship}`);
-            formData.append('_replyto', formData.get('email'));
-            formData.append('_captcha', 'false');
-            formData.append('_template', 'table');
+            // Get file
+            const fileInput = document.getElementById('resume');
+            const file = fileInput.files[0];
             
-            const response = await fetch('https://formsubmit.co/ajax/thinkorix@gmail.com', {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'Accept': 'application/json'
+            // Read file as base64
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            
+            reader.onload = async function() {
+                const base64File = reader.result.split(',')[1];
+                
+                // Prepare template parameters
+                const templateParams = {
+                    to_email: 'thinkorix@gmail.com',
+                    from_name: name,
+                    from_email: email,
+                    contact: contact,
+                    address: address,
+                    city: city,
+                    technology: technology,
+                    subject: `New Internship Application - ${technology}`,
+                    message: `
+New internship application received:
+
+Name: ${name}
+Email: ${email}
+Contact: ${contact}
+Address: ${address}
+City: ${city}
+Technology: ${technology}
+
+Resume attached.
+                    `,
+                    attachment: base64File,
+                    attachment_name: file.name
+                };
+                
+                try {
+                    // Send email using EmailJS
+                    const response = await emailjs.send(
+                        'service_zj9vz1t',      // Replace with your Service ID
+                        'template_7sbsm1b',     // Replace with your Template ID
+                        templateParams
+                    );
+                    
+                    console.log('SUCCESS!', response.status, response.text);
+                    showSuccessMessage();
+                    
+                    setTimeout(() => {
+                        closeModal();
+                        applicationForm.reset();
+                    }, 2500);
+                    
+                } catch (error) {
+                    console.error('FAILED...', error);
+                    throw error;
                 }
-            });
+            };
             
-            const result = await response.json();
+            reader.onerror = function() {
+                throw new Error('Failed to read file');
+            };
             
-            if (response.ok && result.success) {
-                showSuccessMessage();
-                console.log('Form submitted successfully:', result);
-                setTimeout(() => {
-                    closeModal();
-                    applicationForm.reset();
-                }, 2500);
-            } else {
-                throw new Error(result.message || 'Submission failed');
-            }
-            */
-            
-            // OPTION 2: Web3Forms (works immediately - no activation needed)
-            // Get your free access key from: https://web3forms.com
-            formData.append('access_key', 'fbe430f3-6eeb-47df-9199-c8e498379ad4');
-            formData.append('subject', `New Internship Application - ${selectedInternship}`);
-            formData.append('from_name', 'Internship Portal');
-            formData.set('technology', selectedInternship);
-            
-            const response = await fetch('https://api.web3forms.com/submit', {
-                method: 'POST',
-                body: formData
-            });
-            
-            const result = await response.json();
-            
-            if (result.success) {
-                showSuccessMessage();
-                console.log('Form submitted successfully:', result);
-                setTimeout(() => {
-                    closeModal();
-                    applicationForm.reset();
-                }, 2500);
-            } else {
-                throw new Error(result.message || 'Submission failed');
-            }
         } catch (error) {
             console.error('Error:', error);
             showErrorMessage('Failed to submit application. Please try again.');
@@ -133,11 +138,9 @@ document.addEventListener('DOMContentLoaded', function() {
             submitBtn.textContent = originalBtnText;
             submitBtn.disabled = false;
             submitBtn.style.opacity = '1';
-            submitBtn.style.cursor = 'pointer';
         }
     });
     
-    // Function to create modal HTML
     function createModalHTML() {
         const modalHTML = `
             <div class="modal-overlay" id="modalOverlay"></div>
@@ -194,6 +197,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             <div class="file-input-wrapper">
                                 <input type="file" id="resume" name="attachment" accept=".pdf,.doc,.docx" required>
                             </div>
+                            <small style="color: #b0b8c1;">Max file size: 500KB (EmailJS free plan)</small>
                         </div>
                         
                         <button type="submit" class="submit-btn">SUBMIT</button>
@@ -202,24 +206,20 @@ document.addEventListener('DOMContentLoaded', function() {
             </div>
         `;
         
-        // Insert modal HTML at the end of body
         document.body.insertAdjacentHTML('beforeend', modalHTML);
     }
     
-    // Function to open modal
     function openModal() {
         modalOverlay.classList.add('active');
         modalContainer.classList.add('active');
         document.body.style.overflow = 'hidden';
     }
     
-    // Function to close modal
     function closeModal() {
         modalOverlay.classList.remove('active');
         modalContainer.classList.remove('active');
         document.body.style.overflow = '';
         
-        // Re-enable the technology input when closing
         const techInput = document.getElementById('technology');
         if (techInput) {
             techInput.readOnly = false;
@@ -228,25 +228,21 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // Function to validate form
     function validateForm() {
         const form = applicationForm;
-        const inputs = form.querySelectorAll('input[required]:not([readonly]), select[required]:not([readonly]), textarea[required]');
+        const inputs = form.querySelectorAll('input[required]:not([readonly]), textarea[required]');
         let isValid = true;
         
         inputs.forEach(input => {
             if (!input.value.trim()) {
                 isValid = false;
                 input.style.borderColor = '#f56565';
-                
-                // Show error tooltip
                 showErrorTooltip(input, 'Please fill in this field');
             } else {
-                input.style.borderColor = '#e2e8f0';
+                input.style.borderColor = 'rgba(255,255,255,0.2)';
             }
         });
         
-        // Validate email format
         const emailInput = document.getElementById('email');
         const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (emailInput.value && !emailPattern.test(emailInput.value)) {
@@ -255,7 +251,6 @@ document.addEventListener('DOMContentLoaded', function() {
             showErrorTooltip(emailInput, 'Please enter a valid email address');
         }
         
-        // Validate phone number
         const contactInput = document.getElementById('contact');
         const phonePattern = /^[0-9]{10}$/;
         if (contactInput.value && !phonePattern.test(contactInput.value)) {
@@ -264,34 +259,29 @@ document.addEventListener('DOMContentLoaded', function() {
             showErrorTooltip(contactInput, 'Please enter a valid 10-digit phone number');
         }
         
-        // Validate file upload
         const resumeInput = document.getElementById('resume');
         if (!resumeInput.files || resumeInput.files.length === 0) {
             isValid = false;
             resumeInput.style.borderColor = '#f56565';
             showErrorTooltip(resumeInput, 'Please upload your resume');
         } else {
-            // Check file size (max 10MB)
-            const fileSize = resumeInput.files[0].size / 1024 / 1024; // in MB
-            if (fileSize > 10) {
+            const fileSize = resumeInput.files[0].size / 1024; // in KB
+            if (fileSize > 500) {
                 isValid = false;
                 resumeInput.style.borderColor = '#f56565';
-                showErrorTooltip(resumeInput, 'File size should not exceed 10MB');
+                showErrorTooltip(resumeInput, 'File size should not exceed 500KB for EmailJS free plan');
             }
         }
         
         return isValid;
     }
     
-    // Function to show error tooltip
     function showErrorTooltip(element, message) {
-        // Remove existing tooltip if any
         const existingTooltip = element.parentElement.querySelector('.error-tooltip');
         if (existingTooltip) {
             existingTooltip.remove();
         }
         
-        // Create tooltip
         const tooltip = document.createElement('div');
         tooltip.className = 'error-tooltip';
         tooltip.textContent = message;
@@ -312,13 +302,11 @@ document.addEventListener('DOMContentLoaded', function() {
         element.parentElement.style.position = 'relative';
         element.parentElement.appendChild(tooltip);
         
-        // Remove tooltip after 3 seconds
         setTimeout(() => {
             tooltip.remove();
         }, 3000);
     }
     
-    // Function to show success message
     function showSuccessMessage() {
         const successMessage = document.createElement('div');
         successMessage.style.cssText = `
@@ -341,7 +329,6 @@ document.addEventListener('DOMContentLoaded', function() {
         
         document.body.appendChild(successMessage);
         
-        // Remove success message after 3 seconds
         setTimeout(() => {
             successMessage.style.animation = 'slideOutRight 0.3s ease';
             setTimeout(() => {
@@ -350,7 +337,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 2500);
     }
     
-    // Function to show error message
     function showErrorMessage(message) {
         const errorMessage = document.createElement('div');
         errorMessage.style.cssText = `
@@ -373,7 +359,6 @@ document.addEventListener('DOMContentLoaded', function() {
         
         document.body.appendChild(errorMessage);
         
-        // Remove error message after 4 seconds
         setTimeout(() => {
             errorMessage.style.animation = 'slideOutRight 0.3s ease';
             setTimeout(() => {
@@ -382,7 +367,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 3000);
     }
     
-    // Close modal on ESC key press
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape' && modalContainer.classList.contains('active')) {
             closeModal();
