@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blogs</title>
     <link rel="stylesheet" href="navAndfooter.css">
+    <!-- EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -160,6 +162,34 @@
 
         .submit-btn:hover {
             background-color: #1e40af;
+        }
+
+        .submit-btn:disabled {
+            background-color: #666;
+            cursor: not-allowed;
+        }
+
+        .status-message {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 4px;
+            text-align: center;
+            display: none;
+            font-size: 14px;
+        }
+
+        .status-message.success {
+            background: #155724;
+            color: #d4edda;
+            border: 1px solid #c3e6cb;
+            display: block;
+        }
+
+        .status-message.error {
+            background: #721c24;
+            color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            display: block;
         }
 
         .pagination {
@@ -468,33 +498,34 @@
         <aside class="quote-sidebar">
             <div class="quote-form">
                 <h2>Best Quote</h2>
-                <form>
+                <form id="quoteForm">
                     <div class="form-group">
-                        <input type="text" placeholder="Full name" required>
+                        <input type="text" name="from_name" placeholder="Full name" required>
                     </div>
                     <div class="form-group">
-                        <input type="email" placeholder="Email" required>
+                        <input type="email" name="from_email" placeholder="Email" required>
                     </div>
                     <div class="form-group">
                         <div class="phone-input">
                             <input type="text" value="🇮🇳 +91" class="country-code" readonly>
-                            <input type="tel" placeholder="Contact no." required>
+                            <input type="tel" name="phone" placeholder="Contact no." required>
                         </div>
                     </div>
                     <div class="form-group">
-                        <select required>
+                        <select name="service" required>
                             <option value="">Select Service</option>
-                            <option value="web">Web Development</option>
-                            <option value="dataScience">Machine Learning & Data Science</option>
-                            <option value="mobile">Mobile App Development</option>
-                            <option value="ecommerce">E-commerce Solutions</option>
-                            <option value="digital">Digital Marketing</option>
+                            <option value="Web Development">Web Development</option>
+                            <option value="Machine Learning & Data Science">Machine Learning & Data Science</option>
+                            <option value="Mobile App Development">Mobile App Development</option>
+                            <option value="E-commerce Solutions">E-commerce Solutions</option>
+                            <option value="Digital Marketing">Digital Marketing</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <textarea placeholder="Message" required></textarea>
+                        <textarea name="message" placeholder="Message" required></textarea>
                     </div>
-                    <button type="submit" class="submit-btn">SUBMIT</button>
+                    <button type="submit" class="submit-btn" id="quoteSubmitBtn">SUBMIT</button>
+                    <div class="status-message" id="quoteStatusMessage"></div>
                 </form>
             </div>
         </aside>
@@ -540,7 +571,7 @@
             <ul>
                 <li><a href="about.html">About</a></li>
                 <li><a href="contact.html">Contact</a></li>
-                <li><a href="blog.html"  class="nav-link active">Blog</a></li>
+                <li><a href="blog.html" class="nav-link active">Blog</a></li>
             </ul>
         </div>
 
@@ -562,6 +593,72 @@
     
     <!-- Blog-specific scripts -->
     <script>
+        // Initialize EmailJS - Replace with your Public Key
+        emailjs.init('tHBp1QHH45KZW0aX5');
+
+        // Quote Form Handler with EmailJS
+        const quoteForm = document.getElementById('quoteForm');
+        const quoteSubmitBtn = document.getElementById('quoteSubmitBtn');
+        const quoteStatusMessage = document.getElementById('quoteStatusMessage');
+
+        quoteForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Disable button and show loading
+            quoteSubmitBtn.disabled = true;
+            quoteSubmitBtn.textContent = 'Sending...';
+            quoteStatusMessage.style.display = 'none';
+
+            // Prepare template parameters
+            const formData = new FormData(quoteForm);
+            const phone = '+91' + formData.get('phone');
+            
+            const templateParams = {
+                from_name: formData.get('from_name'),
+                from_email: formData.get('from_email'),
+                phone: phone,
+                service: formData.get('service'),
+                message: formData.get('message')
+            };
+
+            // Send email via EmailJS
+            emailjs.send(
+                'service_j5u56vb',    // Replace with your Service ID
+                'template_y9hss2h',   // Replace with your Template ID for Quote Form
+                templateParams
+            )
+            .then(function(response) {
+                console.log('SUCCESS!', response.status, response.text);
+                
+                // Show success message
+                quoteStatusMessage.className = 'status-message success';
+                quoteStatusMessage.textContent = '✓ Quote request sent successfully! We will contact you soon.';
+                quoteStatusMessage.style.display = 'block';
+                
+                // Reset form
+                quoteForm.reset();
+                
+                // Re-enable button after 3 seconds
+                setTimeout(() => {
+                    quoteSubmitBtn.disabled = false;
+                    quoteSubmitBtn.textContent = 'SUBMIT';
+                    quoteStatusMessage.style.display = 'none';
+                }, 3000);
+                
+            }, function(error) {
+                console.error('FAILED...', error);
+                
+                // Show error message
+                quoteStatusMessage.className = 'status-message error';
+                quoteStatusMessage.textContent = '✗ Failed to send request. Please try again or contact us directly.';
+                quoteStatusMessage.style.display = 'block';
+                
+                // Re-enable button
+                quoteSubmitBtn.disabled = false;
+                quoteSubmitBtn.textContent = 'SUBMIT';
+            });
+        });
+
         // Blog data with full content
         const blogData = {
             1: [
@@ -653,7 +750,7 @@
             <li><strong>Internship Start:</strong> Flexible between May 15 - June 15, 2025</li>
         </ul>
         
-        <p><strong>Don't miss this opportunity!</strong> Apply now and take the first step toward an exciting career in technology. If you have any questions about the internship program, feel free to reach out to us at careers@htinnovation.com or fill out the inquiry form on our contact page.</p>
+        <p><strong>Don't miss this opportunity!</strong> Apply now and take the first step toward an exciting career in technology. If you have any questions about the internship program, feel free to reach out to us at careers@thinkorix.com or fill out the inquiry form on our contact page.</p>
         
         <p><em>ThinkOrix is an equal opportunity employer. We celebrate diversity and are committed to creating an inclusive environment for all interns and employees.</em></p>
     `
@@ -851,13 +948,6 @@
         // Initialize pagination buttons
         document.getElementById('prevBtn').addEventListener('click', () => changePage(-1));
         document.getElementById('nextBtn').addEventListener('click', () => changePage(1));
-
-        // Form submission handler
-        document.querySelector('.quote-form form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            alert('Thank you for your inquiry! We will get back to you soon.');
-            this.reset();
-        });
     </script>
 </body>
 </html>
