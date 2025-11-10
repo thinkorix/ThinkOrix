@@ -36,29 +36,24 @@ document.addEventListener('DOMContentLoaded', function() {
     // EVENT LISTENERS
     // ============================================
     
-    // Open sidebar when hamburger is clicked
     hamburger.addEventListener('click', function(e) {
         e.stopPropagation();
         openSidebar();
     });
 
-    // Close sidebar when close button is clicked
     closeBtn.addEventListener('click', function(e) {
         e.stopPropagation();
         closeSidebar();
     });
 
-    // Close sidebar when overlay is clicked
     sidebarOverlay.addEventListener('click', function() {
         closeSidebar();
     });
 
-    // Prevent sidebar from closing when clicking inside it
     sidebar.addEventListener('click', function(e) {
         e.stopPropagation();
     });
 
-    // Close sidebar with Escape key
     document.addEventListener('keydown', function(event) {
         if (event.key === 'Escape' && sidebar.classList.contains('active')) {
             closeSidebar();
@@ -69,18 +64,13 @@ document.addEventListener('DOMContentLoaded', function() {
     // ACTIVE PAGE DETECTION
     // ============================================
     
-    // Get current page filename
     const currentPage = window.location.pathname.split("/").pop() || "index.html";
 
-    // Function to set active link
     function setActiveLink(links) {
         links.forEach(link => {
             const href = link.getAttribute("href");
-            
-            // Remove active class from all
             link.classList.remove("active");
             
-            // Add active class to matching link
             if (href === currentPage || 
                 (href === "index.html" && (currentPage === "" || currentPage === "/"))) {
                 link.classList.add("active");
@@ -88,7 +78,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Set active links on page load
     setActiveLink(navLinks);
     setActiveLink(sidebarLinks);
 
@@ -96,14 +85,11 @@ document.addEventListener('DOMContentLoaded', function() {
     // SIDEBAR LINK CLICK HANDLER
     // ============================================
     
-    // Close sidebar when a link is clicked
     sidebarLinks.forEach(link => {
         link.addEventListener("click", function(e) {
-            // Update active states
             sidebarLinks.forEach(l => l.classList.remove("active"));
             this.classList.add("active");
 
-            // Sync with nav links
             const href = this.getAttribute("href");
             navLinks.forEach(l => {
                 l.classList.remove("active");
@@ -112,17 +98,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
 
-            // Close sidebar after short delay for better UX
             setTimeout(() => {
                 closeSidebar();
             }, 200);
         });
     });
 
-    // ============================================
-    // DESKTOP NAV LINK CLICK HANDLER (Optional)
-    // ============================================
-    
     navLinks.forEach(link => {
         link.addEventListener("click", function() {
             navLinks.forEach(l => l.classList.remove("active"));
@@ -134,7 +115,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // WINDOW RESIZE HANDLER
     // ============================================
     
-    // Close sidebar when window is resized to desktop view
     let resizeTimer;
     window.addEventListener('resize', function() {
         clearTimeout(resizeTimer);
@@ -147,3 +127,81 @@ document.addEventListener('DOMContentLoaded', function() {
 
     console.log('Navigation script loaded successfully!');
 });
+
+// ============================================
+// NEWSLETTER SUBSCRIPTION WITH EMAILJS
+// ============================================
+
+document.addEventListener('DOMContentLoaded', function() {
+    const newsletterBtn = document.querySelector('.newsletter-btn');
+    const newsletterInput = document.querySelector('#newsletter-email');
+
+    if (newsletterBtn && newsletterInput) {
+        newsletterBtn.addEventListener('click', function() {
+            const email = newsletterInput.value.trim();
+            
+            if (!email) {
+                showMessage('Please enter your email address', 'error');
+                return;
+            }
+            
+            if (!isValidEmail(email)) {
+                showMessage('Please enter a valid email address', 'error');
+                return;
+            }
+            
+            subscribeNewsletter(email);
+        });
+        
+        newsletterInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                newsletterBtn.click();
+            }
+        });
+    }
+});
+
+function isValidEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+}
+
+function subscribeNewsletter(email) {
+    const newsletterBtn = document.querySelector('.newsletter-btn');
+    const newsletterInput = document.querySelector('#newsletter-email');
+    const originalText = newsletterBtn.textContent;
+    
+    newsletterBtn.textContent = 'Subscribing...';
+    newsletterBtn.disabled = true;
+    
+    // EmailJS configuration - REPLACE WITH YOUR CREDENTIALS
+    const serviceID = 'tanishq_xr';
+    const templateID = 'template_mpwplzf';
+    
+    const templateParams = {
+        subscriber_email: email,
+        to_email: 'thinkorixteam@gmail.com',
+        message: `New newsletter subscription from: ${email}`,
+        reply_to: email,
+        current_date: new Date().toLocaleString()
+    };
+    
+    emailjs.send(serviceID, templateID, templateParams)
+        .then(function(response) {
+            console.log('SUCCESS!', response.status, response.text);
+            showMessage('🎉 Thank you for subscribing! You\'ll receive updates from ThinkOrix.', 'success');
+            newsletterInput.value = '';
+        }, function(error) {
+            console.error('FAILED...', error);
+            showMessage('Oops! Something went wrong. Please try again later.', 'error');
+        })
+        .finally(function() {
+            newsletterBtn.textContent = originalText;
+            newsletterBtn.disabled = false;
+        });
+}
+
+function showMessage(message, type) {
+    alert(message);
+    // You can replace this with a nicer toast notification if you want
+}

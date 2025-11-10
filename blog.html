@@ -473,7 +473,7 @@
     <div class="main-container">
         <div class="blog-section">
             <article class="blog-card">
-                <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&h=400&fit=crop" alt="E-commerce Mobile App" class="blog-image">
+                <img src="assests/showcase1.png" alt="E-commerce Mobile App" class="blog-image">
                 <div class="blog-content">
                     <h2 class="blog-title">Summer Internship 2025</h2>
                     <p class="blog-description">ThinkOrix is seeking a highly motivated and enthusiastic individual to join Internship Programme for the summer. This internship offers an excellent opportunity to gain hands-on experience in IT Sector and contribute to real-world projects.</p>
@@ -482,7 +482,7 @@
             </article>
 
             <article class="blog-card">
-                <img src="https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=800&h=400&fit=crop" alt="Website Business Growth" class="blog-image">
+                <img src="assests/showcase2.png" alt="Website Business Growth" class="blog-image">
                 <div class="blog-content">
                     <h2 class="blog-title">Importance of Website in your Business Growth</h2>
                     <p class="blog-description">Websites are an essential tool for businesses looking to grow and succeed in today's digital age. Every website plays a vital role in business growth:</p>
@@ -533,7 +533,7 @@
         </aside>
     </div>
 
-    <!-- Footer -->
+ <!-- Footer -->
 <footer>
     <div class="footer-content">
         <div class="footer-logo-section">
@@ -542,10 +542,11 @@
                 <span>ThinkOrix</span>
             </div>
             <div class="newsletter">
-                <input type="email" placeholder="Subscribe for email updates">
+                <input type="email" placeholder="Subscribe for email updates" id="newsletter-email">
+                <button class="newsletter-btn">Subscribe</button>
             </div>
             <div class="social-icons">
-                <a href="https://www.linkedin.com/in/thinkorix/" aria-label="LinkedIn">
+                <a href="https://www.linkedin.com/company/think-orix" aria-label="LinkedIn">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
                     </svg>
@@ -589,9 +590,15 @@
         <p>All copyrights reserved © 2025 - ThinkOrix</p>
     </div>
 </footer>
-    
-    <!-- Load navigation script first -->
-    <script src="navbar.js"></script>
+<!-- EmailJS SDK -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script type="text/javascript">
+    (function(){
+        emailjs.init("n_qTk6cUOM-jPofL2"); // Replace with your public key
+    })();
+</script>
+
+<script src="navbar.js"></script>
     
     <!-- Blog-specific scripts -->
     <script>
@@ -665,7 +672,7 @@
         const blogData = {
             1: [
                 {
-    image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&h=400&fit=crop",
+    image: "assests/showcase1.png",
     title: "Summer Internship 2025",
     description: "ThinkOrix is seeking a highly motivated and enthusiastic individual to join Internship Programme for the summer. This internship offers an excellent opportunity to gain hands-on experience in IT Sector and contribute to real-world projects.",
     fullContent: `
@@ -758,7 +765,7 @@
     `
 },
                 {
-                    image: "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=800&h=400&fit=crop",
+                    image: "assests/showcase2.png",
                     title: "Importance of Website in your Business Growth",
                     description: "Websites are an essential tool for businesses looking to grow and succeed in today's digital age. Every website plays a vital role in business growth:",
                     fullContent: `
@@ -801,7 +808,7 @@
             ],
             2: [
                 {
-                    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=400&fit=crop",
+                    image: "assests/showcase3.png",
                     title: "Why Digital Marketing is Important to Generate Revenue",
                     description: "Discover the latest digital marketing trends and strategies that can help your business stay ahead of the competition in the digital landscape.",
                     fullContent: `
@@ -832,7 +839,7 @@
                     `
                 },
                 {
-                    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=400&fit=crop",
+                    image: "assests/showcase4.png",
                     title: "Machine Learning & Data Science",
                     description: "Explore emerging technologies and frameworks that are shaping the future of web development and how they can benefit your business.",
                     fullContent: `

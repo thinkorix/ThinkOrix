@@ -92,7 +92,7 @@ body {
 
 .meet-btn {
     position: absolute;
-    bottom: 30px;
+    bottom: 20px;
     right: 40px;
     text-decoration: none;
     background: #4a9eff;
@@ -362,14 +362,23 @@ body {
         padding: 0 20px;
     }
 
+    /* FIX: Change padding to accommodate button properly */
     .why-choose-content {
-        padding: 30px 25px 70px;
+        padding: 30px 25px 30px;
     }
 
+    /* FIX: Make button static instead of absolute on mobile */
     .meet-btn {
         position: static;
         margin-top: 30px;
         width: 100%;
+        display: block;
+        text-align: center;
+    }
+    
+    /* FIX: Add bottom margin to last item to prevent overlap */
+    .why-item:last-of-type {
+        margin-bottom: 20px;
     }
 
     .services-preview {
@@ -390,5 +399,25 @@ body {
 
     .service-content p {
         text-align: left;
+    }
+}
+
+/* Additional fix for smaller mobile devices */
+@media (max-width: 480px) {
+    .why-choose-content {
+        padding: 25px 20px 25px;
+    }
+    
+    .why-item {
+        margin-bottom: 25px;
+    }
+    
+    .why-item:last-of-type {
+        margin-bottom: 20px;
+    }
+    
+    .meet-btn {
+        padding: 14px 25px;
+        font-size: 0.85rem;
     }
 }
