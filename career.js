@@ -5,12 +5,113 @@
     });
 })();
 
-// Internship Details Database
+// Enhanced Internship Details Database with Special Programs
 const internshipDatabase = {
+    // Special 15 Days Programs
+    "Python Internship - Intensive": {
+        description: "Fast-track intensive Python program covering core concepts in 15 days",
+        topics: [
+            "Python Fundamentals & Syntax",
+            "Data Structures (Lists, Tuples, Dictionaries)",
+            "Functions & Modules",
+            "File Handling & Exception Handling",
+            "Basic OOP Concepts",
+            "Mini Project Development"
+        ],
+        benefits: [
+            "Intensive daily sessions",
+            "Quick skill development",
+            "Mini project completion",
+            "Certificate of completion",
+            "Perfect for beginners"
+        ],
+        requirements: [
+            "No prior programming experience needed",
+            "Dedication to intensive learning",
+            "2-3 hours daily commitment"
+        ]
+    },
+    "Data Science - Intensive": {
+        description: "Accelerated introduction to Data Science fundamentals in 15 days",
+        topics: [
+            "Introduction to Data Science",
+            "Python for Data Science",
+            "NumPy & Pandas Basics",
+            "Data Visualization (Matplotlib, Seaborn)",
+            "Statistical Analysis Basics",
+            "Simple Data Analysis Project"
+        ],
+        benefits: [
+            "Quick introduction to field",
+            "Hands-on practice daily",
+            "Real dataset analysis",
+            "Certificate of completion",
+            "Career path guidance"
+        ],
+        requirements: [
+            "Basic Python knowledge helpful",
+            "Interest in data analysis",
+            "Analytical mindset"
+        ]
+    },
+
+    // Special 1 Month Programs
+    "Python Internship - Foundation": {
+        description: "Comprehensive foundation in Python programming over 1 month",
+        topics: [
+            "Complete Python Fundamentals",
+            "Advanced Data Structures",
+            "Object-Oriented Programming",
+            "File Operations & Data Handling",
+            "Working with APIs",
+            "Database Basics (SQLite)",
+            "Optional: Web Scraping Introduction",
+            "Mini/Full Project Options"
+        ],
+        benefits: [
+            "Structured learning path",
+            "Weekly assignments & projects",
+            "Mentor guidance",
+            "Certificate of completion",
+            "Portfolio project"
+        ],
+        requirements: [
+            "Basic computer knowledge",
+            "Commitment to regular practice",
+            "1-2 hours daily study time"
+        ]
+    },
+    "Data Science - Foundation": {
+        description: "Solid foundation in Data Science concepts and tools in 1 month",
+        topics: [
+            "Python Programming Refresher",
+            "Statistics & Probability",
+            "Data Manipulation (Pandas, NumPy)",
+            "Data Visualization Tools",
+            "Exploratory Data Analysis",
+            "Introduction to ML Concepts",
+            "SQL for Data Science",
+            "End-to-end Data Project"
+        ],
+        benefits: [
+            "Comprehensive curriculum",
+            "Real-world datasets",
+            "Weekly mentor sessions",
+            "Project-based learning",
+            "Certificate + Portfolio"
+        ],
+        requirements: [
+            "Basic Python recommended",
+            "Mathematical aptitude",
+            "Commitment to learning"
+        ]
+    },
+
+    // Regular 6-Month Programs
     "Python Internship (Advance Python)": {
         description: "Master advanced Python concepts and build real-world applications",
         topics: [
-            "Basic Connecepts of Python",
+            "Basic Concepts of Python",
             "Object-Oriented Programming (OOP)",
             "Web Scraping with BeautifulSoup & Selenium",
             "Async Programming & Multithreading",
@@ -21,7 +122,7 @@ const internshipDatabase = {
             "Work on industry level projects",
             "Weekly code reviews & mentorship",
             "Access to premium learning resources",
-            "Certificate of completion",
+            "Certificate of completion"
         ],
         requirements: [
             "Basic Python knowledge required",
@@ -46,7 +147,7 @@ const internshipDatabase = {
             "Work with real datasets",
             "Learn industry best practices",
             "Guidance from ML experts",
-            "Certificate + Portfolio review",
+            "Certificate + Portfolio review"
         ],
         requirements: [
             "Python programming experience",
@@ -112,12 +213,12 @@ const internshipDatabase = {
             "State Management (GetX)",
             "REST API Integration & HTTP Requests",
             "Firebase Integration (Auth, Firestore)",
-            "Push Notifications & Background Services",
+            "Push Notifications & Background Services"
         ],
         benefits: [
             "Build complete mobile applications",
             "Learn industry coding standards",
-            "Code review sessions",
+            "Code review sessions"
         ],
         requirements: [
             "Basic Flutter & Dart knowledge",
@@ -220,10 +321,19 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
-        const internshipTitle = card.querySelector('h2')?.textContent;
-        if (!internshipTitle) {
+        const internshipTitleElement = card.querySelector('h2');
+        if (!internshipTitleElement) {
             console.error('Could not find internship title');
             return;
+        }
+        
+        // Get full title including badge
+        let internshipTitle = internshipTitleElement.textContent.trim();
+        
+        // Remove badge text if present (e.g., "15 Days" or "1 Month")
+        const badge = internshipTitleElement.querySelector('.special-badge');
+        if (badge) {
+            internshipTitle = internshipTitle.replace(badge.textContent, '').trim();
         }
         
         console.log('Selected internship:', internshipTitle);
